@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from deals.models import Deal, Discount, Action
+from deals.models import Deal
 
 admin.site.register(Deal)
-admin.site.register(Discount)
-admin.site.register(Action)
+

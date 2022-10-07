@@ -1,6 +1,6 @@
 from django.db import models
 
-from deals.models import DiscountAutoShow, ActionAutoShow
+from auto_show.models import DiscountAutoShow
 
 
 class Customer(models.Model):

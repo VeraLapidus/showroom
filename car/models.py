@@ -1,8 +1,7 @@
 from django.db import models
 
-from auto_show.models import Auto_show
-from deals.models import ActionProducer, ActionAutoShow
-from producer.models import Producer
+from auto_show.models import AutoShow, ActionAutoShow
+from producer.models import Producer, ActionProducer
 from customer.models import Customer
 
 
@@ -30,7 +29,7 @@ class Car(models.Model):
 
 
     class Meta:
-        ordering = ['brand, model, year']
+        # ordering = ['brand, model, year']
         verbose_name = 'Автомобиль'
         verbose_name_plural = 'Автомобили'
 
@@ -56,7 +55,7 @@ class CarInstance(models.Model):
     price_action_producers = models.PositiveIntegerField(blank=True, null=True, verbose_name='Цена по акции поставщика, USD')
 
     producers = models.ForeignKey(Producer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Поставщик')
-    auto_shows = models.ForeignKey(Auto_show, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автосалон')
+    auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автосалон')
     customers = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Покупатель')
 
     action_producers = models.ForeignKey(ActionProducer, on_delete=models.CASCADE, blank=True, verbose_name="Акция поставщика")
