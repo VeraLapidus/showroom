@@ -1,7 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 
-from car.models import Car
+from car.models import Car, CarInstance
 from deals.models import DiscountProducer, ActionProducer
 
 
@@ -12,16 +12,16 @@ class Auto_show(models.Model):
     country = CountryField(verbose_name="Страна")
     year_foundation = models.PositiveIntegerField(blank=True, verbose_name='Год основания')
     balance = models.IntegerField(default=0, verbose_name='Баланс автосалона, USD')
-    wish_cars = models.ManyToManyField(Car, verbose_name="Автомобили к приобретению")
 
+    wish_cars = models.CharField(max_length=1500, blank=True, verbose_name="Автомобили к приобретению")
     list_auto = models.CharField(max_length=1500, blank=True, verbose_name="Список автомобилей салона")
     # можно вытащить по связям Auto_show -mtm- Car -fg- CarInstance #
 
     list_producers = models.CharField(max_length=1500, blank=True, verbose_name="Список поставщиков")
     list_customers = models.CharField(max_length=1500, blank=True, verbose_name="Список покупателей")
 
-    discount_producers = models.ForeignKey(DiscountProducer, on_delete=models.CASCADE, verbose_name="Скидка продавца")
-
+    discount_producers = models.ForeignKey(DiscountProducer, blank=True, on_delete=models.CASCADE, verbose_name="Скидка поставщика")
+    action_producers = models.ForeignKey(ActionProducer, blank=True, on_delete=models.CASCADE, verbose_name="Акция поставщика")
 
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")

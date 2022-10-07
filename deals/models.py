@@ -1,7 +1,7 @@
 from django.db import models
 
 from auto_show.models import Auto_show
-from car.models import Car
+from car.models import CarInstance
 from customer.models import Customer
 from producer.models import Producer
 
@@ -15,12 +15,10 @@ class Deal(models.Model):
     participants = models.CharField(max_length=40, choices=PARTICIPANTS, verbose_name='Стороны сделки')
     price = models.PositiveIntegerField(verbose_name='Сумма сделки, USD')
 
-    auto_shows = models.ForeignKey(Auto_show, on_delete=models.CASCADE, blank=True, null=True,
-                                   verbose_name='Автосалон')
+    auto_shows = models.ForeignKey(Auto_show, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автосалон')
     producers = models.ForeignKey(Producer, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Продавец")
-    customers = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True,
-                                  verbose_name='Покупатель')
-    cars = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name='Авто')
+    customers = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Покупатель')
+    car_instances = models.ForeignKey(CarInstance, on_delete=models.CASCADE, verbose_name='Авто')
 
     is_active = models.BooleanField(default=True, verbose_name='Активен')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата совершения сделки")
@@ -45,7 +43,7 @@ class DiscountProducer(models.Model):
     quantity_cars_min = models.PositiveIntegerField(blank=True, null=True, verbose_name='Min количество авто для применения скидки')
     description = models.TextField(max_length=500, blank=True)
 
-    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Продавец")
+    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Поставщик")
 
     is_active = models.BooleanField(default=True, verbose_name='Активен')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
@@ -53,8 +51,8 @@ class DiscountProducer(models.Model):
 
     class Meta:
         # ordering = ['name']
-        verbose_name = 'Скидка продавца'
-        verbose_name_plural = 'Скидки продавца'
+        verbose_name = 'Скидка поставщика'
+        verbose_name_plural = 'Скидки поставщика'
 
     def __str__(self):
         return self.name
@@ -94,7 +92,7 @@ class ActionProducer(models.Model):
     date_finish = models.DateTimeField(verbose_name='Дата окончания акции (dd.mm.yyyy 00:00:00)')
     description = models.TextField(max_length=500, blank=True)
 
-    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Продавец")
+    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Поставщик")
 
     is_active = models.BooleanField(default=True, verbose_name='Активен')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
@@ -102,8 +100,8 @@ class ActionProducer(models.Model):
 
     class Meta:
         # ordering = ['date_start']
-        verbose_name = 'Акция продавца'
-        verbose_name_plural = 'Акции продавца'
+        verbose_name = 'Акция поставщика'
+        verbose_name_plural = 'Акции поставщика'
 
     def __str__(self):
         return self.name

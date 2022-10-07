@@ -8,11 +8,10 @@ class Customer(models.Model):
 
     first_name = models.CharField(max_length=200, verbose_name="Имя покупателя")
     last_name = models.CharField(max_length=200, verbose_name="Фамилия покупателя")
-    # full_name = models.CharField(max_length=400, blank=True, verbose_name="Фамилия и имя покупателя")
     year_of_birth = models.PositiveIntegerField(blank=True, verbose_name='Год рождения')
     balance = models.IntegerField(default=0, verbose_name='Баланс покупателя, USD')
 
-    discount_auto_shows = models.ForeignKey(DiscountAutoShow, on_delete=models.CASCADE, verbose_name="Скидка автосалона")
+    discount_auto_shows = models.ForeignKey(DiscountAutoShow, blank=True, on_delete=models.CASCADE, verbose_name="Скидка автосалона")
 
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
