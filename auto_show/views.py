@@ -1,3 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-# Create your views here.
+from auto_show.models import AutoShow
+
+
+def list_auto_shows(request):
+    """Функция вывода списка всех автосалонов"""
+
+    auto_shows = AutoShow.objects.all()
+    context = {'auto_shows': auto_shows}
+    return render(request, 'list_auto_shows.html', context)
+
+def auto_show_detail(request, id):
+    auto_show = get_object_or_404(AutoShow, id=id)
+    context = {'auto_show': auto_show}
+    return render(request, 'auto_show_detail.html', context)

@@ -12,7 +12,7 @@ class AutoShowAdmin(admin.ModelAdmin):
 class DiscountAutoShowAdmin(admin.ModelAdmin):
     """Класс для админки модели DiscountAutoShow"""
 
-    list_display = ('name', 'amount_discount', 'max_amount_spent', 'min_amount_spent', 'auto_shows', 'is_active')
+    list_display = ('auto_shows', 'name', 'amount_discount',  'min_amount_spent', 'max_amount_spent', 'is_active')
     list_editable = ('is_active',)
 
 

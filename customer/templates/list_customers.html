@@ -1,0 +1,12 @@
+{% extends "start_page.html" %}
+
+{% block content %}
+<h3>Покупатели:</h3>
+    {% for customer in customers %}
+        <p>{{ customer.full_name }}</p>
+    {% endfor %}
+{% endblock %}
+
+
+
+

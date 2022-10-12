@@ -1,0 +1,12 @@
+{% extends "start_page.html" %}
+
+{% block content %}
+<h3>Автосалоны:</h3>
+    {% for auto_show in auto_shows %}
+<a href="{{ auto_show.get_absolute_url }}">
+<p>{{ auto_show.name }}</p>
+    {% endfor %}
+{% endblock %}
+
+
+

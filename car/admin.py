@@ -5,7 +5,7 @@ from car.models import Car, CarInstance
 class CarAdmin(admin.ModelAdmin):
     """Класс для админки модели Car"""
 
-    list_display = ('full_name', 'is_active')
+    list_display = ('brand', 'model', 'year', 'is_active')
     list_editable = ('is_active',)
 
 

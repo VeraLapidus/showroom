@@ -46,8 +46,8 @@ class CarInstance(models.Model):
     auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автосалон')
     customers = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Покупатель')
 
-    action_producers = models.ForeignKey(ActionProducer, on_delete=models.CASCADE, blank=True, null=True,
-                                         verbose_name="Акция поставщика")
+    # action_producers = models.ForeignKey(ActionProducer, on_delete=models.CASCADE, blank=True, null=True,
+    #                                      verbose_name="Акция поставщика")
     action_auto_shows = models.ForeignKey(ActionAutoShow, on_delete=models.CASCADE, blank=True, null=True,
                                           verbose_name="Акция автосалона")
     price_discount_auto_shows = models.PositiveIntegerField(blank=True, null=True,
