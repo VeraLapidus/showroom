@@ -1,6 +1,16 @@
 from django.shortcuts import render
+from rest_framework import generics
 
-from producer.models import Producer
+from .models import Producer
+from .serializers import ProducerSerializer
+
+
+class ProducerList(generics.ListAPIView):
+    """ Вывод данных всех поставщиков """
+
+    queryset = Producer.objects.all()
+    serializer_class = ProducerSerializer
+
 
 
 def list_producers(request):

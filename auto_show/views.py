@@ -1,6 +1,33 @@
 from django.shortcuts import render, get_object_or_404
+from rest_framework import generics
 
-from auto_show.models import AutoShow
+from .models import AutoShow
+from .serializers import AutoShowSerializer
+
+
+class AutoShowList(generics.ListAPIView):
+    """  Вывод данных всех автосалонов """
+
+    queryset = AutoShow.objects.all()
+    serializer_class = AutoShowSerializer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def list_auto_shows(request):

@@ -21,6 +21,7 @@ urlpatterns = [
     path('', include('deals.urls')),
     path('admin/', admin.site.urls),
     path('auto_show/', include('auto_show.urls')),
+    path('car/', include('car.urls')),
     path('customer/', include('customer.urls')),
     path('producer/', include('producer.urls')),
 
