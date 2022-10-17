@@ -5,7 +5,7 @@ from .models import Car
 from .serializers import CarSerializer
 
 
-class CarList(generics.ListAPIView):
+class CarList(generics.RetrieveUpdateAPIView):
     """  Вывод данных всех австомобилей """
 
     queryset = Car.objects.all()

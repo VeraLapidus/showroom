@@ -2,22 +2,30 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
 
 from .models import AutoShow
-from .serializers import AutoShowSerializer
+from .serializers import AutoShowSerializer, AutoShowAllSerializer
 
 
 class AutoShowList(generics.ListAPIView):
-    """  Вывод данных всех автосалонов """
+    """  Вывод основных данных по всем автосалонам """
+
+    queryset = AutoShow.objects.all()
+    serializer_class = AutoShowAllSerializer
+
+
+
+class AutoShowView(generics.RetrieveAPIView):
+    """  Вывод всех данных по одному автосалону """
 
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
 
 
 
-
-
-
-
-
+# class AutoShowCreate(generics.CreateAPIView):
+#     """  Создание автосалона """
+#
+#     queryset = AutoShow.objects.all()
+#     serializer_class = AutoShowSerializer
 
 
 

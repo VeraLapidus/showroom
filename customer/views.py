@@ -2,15 +2,21 @@ from django.shortcuts import render
 from rest_framework import generics
 
 from .models import Customer
-from .serializers import CustomerSerializer
+from .serializers import CustomerSerializer, CustomerAllSerializer
 
 
 class CustomerList(generics.ListAPIView):
-    """ Вывод данных всех клиентов """
+    """ Вывод основных данных по всем клиентам """
+
+    queryset = Customer.objects.all()
+    serializer_class = CustomerAllSerializer
+
+
+class CustomerView(generics.RetrieveAPIView):
+    """ Вывод всех данных по одному клиенту """
 
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-
 
 
 

@@ -3,9 +3,18 @@ from rest_framework import serializers
 from .models import AutoShow
 
 
-class AutoShowSerializer(serializers.ModelSerializer):
+class AutoShowAllSerializer(serializers.ModelSerializer):
     """ сериализатор для вывода всех автосалонов """
 
     class Meta:
         model = AutoShow
-        fields = ['name', 'country', 'year_foundation', 'balance', 'wish_cars', 'list_auto', 'list_producers', 'list_customers',]
+        # fields = '__all__'
+        fields = ['id', 'name', 'country', 'year_foundation', 'balance']
+
+
+class AutoShowSerializer(serializers.ModelSerializer):
+    """ сериализатор для детальной информации по одному автосалону """
+
+    class Meta:
+        model = AutoShow
+        exclude = ['discount_producers', 'action_producers']

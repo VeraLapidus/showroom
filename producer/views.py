@@ -2,14 +2,24 @@ from django.shortcuts import render
 from rest_framework import generics
 
 from .models import Producer
-from .serializers import ProducerSerializer
+from .serializers import ProducerSerializer, ProducerAllSerializer
 
 
 class ProducerList(generics.ListAPIView):
-    """ Вывод данных всех поставщиков """
+    """ Вывод основных данных для всех поставщиков """
+
+    queryset = Producer.objects.all()
+    serializer_class = ProducerAllSerializer
+
+
+class ProducerView(generics.RetrieveAPIView):
+    """ Вывод всех данных для одного поставщика """
 
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer
+
+
+
 
 
 
