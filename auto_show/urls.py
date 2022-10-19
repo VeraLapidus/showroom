@@ -1,16 +1,15 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from .views import list_auto_shows, auto_show_detail, AutoShowList, AutoShowView
+from .views import list_auto_shows, auto_show_detail, AutoShowViewSet
 
 app_name = "auto_show"
 
+router = routers.SimpleRouter()
+router.register(r'auto_show', AutoShowViewSet)
+
 urlpatterns = [
-
-    path('api/auto_shows_list', AutoShowList.as_view()),
-    path('api/auto_show/<int:pk>/', AutoShowView.as_view()),
-
-
-
+    path('api/', include(router.urls)),      # http://127.0.0.1:8000/auto_show/api/auto_show
 
 
 

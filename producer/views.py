@@ -1,19 +1,13 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import mixins, viewsets
 
 from .models import Producer
-from .serializers import ProducerSerializer, ProducerAllSerializer
+from .serializers import ProducerSerializer
 
 
-class ProducerList(generics.ListAPIView):
-    """ Вывод основных данных для всех поставщиков """
-
-    queryset = Producer.objects.all()
-    serializer_class = ProducerAllSerializer
-
-
-class ProducerView(generics.RetrieveAPIView):
-    """ Вывод всех данных для одного поставщика """
+class ProducerViewSet(mixins.CreateModelMixin,
+                      viewsets.ReadOnlyModelViewSet):
+    """ Вывод данных для поставщиков """
 
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer

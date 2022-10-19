@@ -3,16 +3,8 @@ from rest_framework import serializers
 from .models import Customer
 
 
-class CustomerAllSerializer(serializers.ModelSerializer):
-    """ сериализатор для основных данных по всем клиентам """
-
-    class Meta:
-        model = Customer
-        fields = ['id', 'last_name', 'first_name', 'year_of_birth', 'balance']
-
-
 class CustomerSerializer(serializers.ModelSerializer):
-    """ сериализатор для детальной информации по одному клиенту """
+    """ сериализатор для данных по клиентам """
 
     class Meta:
         model = Customer

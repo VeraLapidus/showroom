@@ -1,12 +1,16 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from .views import list_customers, CustomerList, CustomerView
+from .views import list_customers, CustomerViewSet
 
 app_name = "customer"
 
+
+router = routers.SimpleRouter()
+router.register(r'customer', CustomerViewSet)
+
 urlpatterns = [
-    path('api/customers_list/', CustomerList.as_view()),
-    path('api/customer/<int:pk>/', CustomerView.as_view()),
+    path('api/', include(router.urls)),            # http://127.0.0.1:8000/customer/api/customer
 
 
 

@@ -1,22 +1,21 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import mixins, viewsets
 
 from .models import Customer
-from .serializers import CustomerSerializer, CustomerAllSerializer
+from .serializers import CustomerSerializer
 
 
-class CustomerList(generics.ListAPIView):
-    """ Вывод основных данных по всем клиентам """
-
-    queryset = Customer.objects.all()
-    serializer_class = CustomerAllSerializer
-
-
-class CustomerView(generics.RetrieveAPIView):
-    """ Вывод всех данных по одному клиенту """
+class CustomerViewSet(mixins.CreateModelMixin,
+                   viewsets.ReadOnlyModelViewSet):
+    """ Вывод данных по клиентам """
 
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+
+
+
+
+
 
 
 

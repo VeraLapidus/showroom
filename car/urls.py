@@ -1,11 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from .views import CarList, CarView, CarInstanceList
+from .views import CarViewSet, CarInstanceViewSet
 
 app_name = 'car'
 
+router = routers.SimpleRouter()
+router.register(r'car', CarViewSet)
+router.register(r'car_instance', CarInstanceViewSet)
+
 urlpatterns = [
-    path('api/cars_list', CarList.as_view()),
-    path('api/car/<int:pk>', CarView.as_view()),
-    path('api/car_instances_list', CarInstanceList.as_view()),
+    path('api/', include(router.urls)),  # http://127.0.0.1:8000/car/api/car
 ]

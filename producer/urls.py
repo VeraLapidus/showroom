@@ -1,12 +1,19 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
-from .views import list_producers, ProducerList, ProducerView
+from .views import list_producers, ProducerViewSet
 
 app_name = "producer"
 
+router = routers.SimpleRouter()
+router.register(r'producer', ProducerViewSet)
+
 urlpatterns = [
-    path('api/producers_list/', ProducerList.as_view()),
-    path('api/producer/<int:pk>', ProducerView.as_view()),
+    path('api/', include(router.urls)),    # http://127.0.0.1:8000/producer/api/producer
+
+
+
+
 
 
 

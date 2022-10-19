@@ -26,7 +26,7 @@ class AutoShow(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='Активен')
 
     class Meta:
-        ordering = ['name']
+        # ordering = ['name']
         verbose_name = 'Автосалон'
         verbose_name_plural = 'Автосалоны'
 

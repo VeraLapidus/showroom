@@ -1,31 +1,22 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import generics
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
 from .models import AutoShow
-from .serializers import AutoShowSerializer, AutoShowAllSerializer
+from .serializers import AutoShowSerializer
 
 
-class AutoShowList(generics.ListAPIView):
-    """  Вывод основных данных по всем автосалонам """
-
-    queryset = AutoShow.objects.all()
-    serializer_class = AutoShowAllSerializer
-
-
-
-class AutoShowView(generics.RetrieveAPIView):
-    """  Вывод всех данных по одному автосалону """
+class AutoShowViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
+    """  Вывод данных по автосалонам  """
 
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
 
 
 
-# class AutoShowCreate(generics.CreateAPIView):
-#     """  Создание автосалона """
-#
-#     queryset = AutoShow.objects.all()
-#     serializer_class = AutoShowSerializer
 
 
 
