@@ -4,7 +4,7 @@ from .models import Customer
 
 
 class CustomerAllSerializer(serializers.ModelSerializer):
-    """ сериализатор для вывода всех клиентов """
+    """ сериализатор для основных данных по всем клиентам """
 
     class Meta:
         model = Customer

@@ -4,7 +4,7 @@ from .models import Producer
 
 
 class ProducerAllSerializer(serializers.ModelSerializer):
-    """ сериализатор для всех поставщиков """
+    """ сериализатор для основных данных по всем поставщикам """
 
     class Meta:
         model = Producer

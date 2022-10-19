@@ -4,7 +4,7 @@ from .models import AutoShow
 
 
 class AutoShowAllSerializer(serializers.ModelSerializer):
-    """ сериализатор для вывода всех автосалонов """
+    """ сериализатор для основных данных по всем автосалонам """
 
     class Meta:
         model = AutoShow
