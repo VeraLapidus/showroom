@@ -28,21 +28,21 @@ class Car(models.Model):
         verbose_name_plural = 'Автомобили'
 
     def __str__(self):
-        return f'{self.brand} {self.model}  {self.year}'
+        return f'{self.brand} {self.model} {self.year}'
 
 
 class CarInstance(models.Model):
     """ Класс экземпляра автомобиля """
 
-    name = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name="Автомобиль")
+    name = models.ForeignKey(Car, related_name='car_instances', on_delete=models.CASCADE, verbose_name="Автомобиль")
     color = models.CharField(max_length=200, blank=True, null=True, verbose_name="Цвет")
     CONDITION = [('wish_auto_show', 'желаемый для автосалона'), ('wish_customer', 'желаемый для покупателя'),
                  ('in_showroom', 'в автосалоне'), ('at_producer', 'у поставщика'), ('at_customer', 'у покупателя')]
     condition = models.CharField(max_length=40, choices=CONDITION, verbose_name='Статус авто')
     price = models.PositiveIntegerField(verbose_name='Цена, USD')
-    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Поставщик')
-    auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автосалон')
-    customers = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Покупатель')
+    producers = models.ForeignKey(Producer, related_name='producers', on_delete=models.CASCADE, blank=True, null=True, verbose_name='Поставщик')
+    auto_shows = models.ForeignKey(AutoShow, related_name='auto_shows', on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автосалон')
+    customers = models.ForeignKey(Customer, related_name='customers', on_delete=models.CASCADE, blank=True, null=True, verbose_name='Покупатель')
 
     ### action_producers = models.ForeignKey(ActionProducer, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Акция поставщика")
     # action_auto_shows = models.ForeignKey(ActionAutoShow, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Акция автосалона")

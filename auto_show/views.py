@@ -10,7 +10,7 @@ class AutoShowViewSet(mixins.CreateModelMixin,
                    mixins.RetrieveModelMixin,
                    mixins.ListModelMixin,
                    GenericViewSet):
-    """  Вывод данных по автосалонам  """
+    """  Вывод данных по автосалонам с возможностью создания автосалона """
 
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer

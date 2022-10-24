@@ -7,7 +7,7 @@ from .serializers import ProducerSerializer
 
 class ProducerViewSet(mixins.CreateModelMixin,
                       viewsets.ReadOnlyModelViewSet):
-    """ Вывод данных для поставщиков """
+    """ Вывод данных для поставщиков с возможностью создания поставщика"""
 
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer

@@ -11,4 +11,5 @@ router.register(r'car_instance', CarInstanceViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),  # http://127.0.0.1:8000/car/api/car
+                                         # http://127.0.0.1:8000/car/api/car_instance
 ]

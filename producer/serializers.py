@@ -6,7 +6,9 @@ from .models import Producer
 class ProducerSerializer(serializers.ModelSerializer):
     """ сериализатор для данных по поставщикам """
 
+    producers = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Producer
-        fields = '__all__'
-
+        fields = ['id', 'name', 'country', 'year_foundation', 'balance', 'amount_of_clients', 'created', 'updated',
+                  'is_active', 'producers']

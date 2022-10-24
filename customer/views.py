@@ -7,7 +7,7 @@ from .serializers import CustomerSerializer
 
 class CustomerViewSet(mixins.CreateModelMixin,
                    viewsets.ReadOnlyModelViewSet):
-    """ Вывод данных по клиентам """
+    """ Вывод данных по клиентам с возможностью создания клиента """
 
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer

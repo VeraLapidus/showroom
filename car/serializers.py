@@ -1,19 +1,35 @@
 from rest_framework import serializers
 
+from auto_show.serializers import AutoShowSerializer
+from customer.serializers import CustomerSerializer
+from producer.serializers import ProducerSerializer
 from .models import Car, CarInstance
 
 
 class CarSerializer(serializers.ModelSerializer):
     """ сериализатор для данных по автомобилям """
 
+    car_instances = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Car
-        fields = '__all__'
+        fields = ['id', 'brand', 'model', 'year', 'description', 'created', 'updated', 'is_active', 'car_instances']
 
 
 class CarInstanceSerializer(serializers.ModelSerializer):
     """  сериализатор для данных по экземплярам автомобилей """
 
+    name = serializers.SlugRelatedField(slug_field='full_name', read_only=True)
+    producers = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    auto_shows = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    customers = serializers.SlugRelatedField(slug_field='full_name', read_only=True)
+
+    # name = CarSerializer(read_only=True)
+    # producers = ProducerSerializer(read_only=True)
+    # auto_shows = AutoShowSerializer(read_only=True)
+    # customers = CustomerSerializer(read_only=True)
+
     class Meta:
         model = CarInstance
-        fields = '__all__'
+        fields = ['id', 'name', 'color', 'condition', 'customers', 'auto_shows', 'producers', 'created', 'updated',
+                  'is_active']
