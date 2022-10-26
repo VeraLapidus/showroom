@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
 
 from deals.models import Deal
 from deals.serializers import DealSerializer
@@ -10,6 +11,7 @@ class DealViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Deal.objects.all()
     serializer_class = DealSerializer
+    permission_classes = (IsAdminUser,)
 
 
 

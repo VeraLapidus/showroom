@@ -37,7 +37,7 @@ class CarInstance(models.Model):
     name = models.ForeignKey(Car, related_name='car_instances', on_delete=models.CASCADE, verbose_name="Автомобиль")
     color = models.CharField(max_length=200, blank=True, null=True, verbose_name="Цвет")
     CONDITION = [('wish_auto_show', 'желаемый для автосалона'), ('wish_customer', 'желаемый для покупателя'),
-                 ('in_showroom', 'в автосалоне'), ('at_producer', 'у поставщика'), ('at_customer', 'у покупателя')]
+                 ('at auto_show', 'в автосалоне'), ('at_producer', 'у поставщика'), ('at_customer', 'у покупателя')]
     condition = models.CharField(max_length=40, choices=CONDITION, verbose_name='Статус авто')
     price = models.PositiveIntegerField(verbose_name='Цена, USD')
     producers = models.ForeignKey(Producer, related_name='producers', on_delete=models.CASCADE, blank=True, null=True, verbose_name='Поставщик')

@@ -15,5 +15,5 @@ class DealSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deal
-        fields = ['id', 'name', 'participants', 'customers', 'auto_shows', 'producers', 'price', 'car_instances',
+        fields = ['id', 'name', 'participants', 'producers',  'auto_shows',  'customers', 'price', 'car_instances',
                   'created', 'updated', 'is_active']

@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import mixins
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import GenericViewSet
 
 from .models import AutoShow
-from .serializers import AutoShowSerializer
+from .serializers import AutoShowSerializer, AutoShowSerializerCreate
 
 
 class AutoShowViewSet(mixins.CreateModelMixin,
@@ -14,6 +15,13 @@ class AutoShowViewSet(mixins.CreateModelMixin,
 
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "POST":
+            return AutoShowSerializerCreate
+
+        return self.serializer_class
 
 
 

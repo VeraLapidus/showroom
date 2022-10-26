@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework import mixins, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .models import Customer
-from .serializers import CustomerSerializer
+from .serializers import CustomerSerializer, CustomerSerializerCreate
 
 
 class CustomerViewSet(mixins.CreateModelMixin,
@@ -11,8 +12,13 @@ class CustomerViewSet(mixins.CreateModelMixin,
 
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "POST":
+            return CustomerSerializerCreate
 
+        return self.serializer_class
 
 
 

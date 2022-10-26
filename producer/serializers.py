@@ -12,3 +12,11 @@ class ProducerSerializer(serializers.ModelSerializer):
         model = Producer
         fields = ['id', 'name', 'country', 'year_foundation', 'balance', 'amount_of_clients', 'created', 'updated',
                   'is_active', 'producers']
+
+
+class ProducerSerializerCreate(serializers.ModelSerializer):
+    """ сериализатор для создания поставщика """
+
+    class Meta:
+        model = Producer
+        fields = ['name', 'country', 'year_foundation', 'balance', 'is_active']

@@ -1,31 +1,29 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .models import Car, CarInstance
-from .serializers import CarSerializer, CarInstanceSerializer
+from .serializers import CarSerializer, CarInstanceSerializer, CarInstanceSerializerCreate
 
 
-class CarViewSet(viewsets.ReadOnlyModelViewSet):
+class CarViewSet(mixins.CreateModelMixin,
+                 viewsets.ReadOnlyModelViewSet):
     """ Вывод данных по автомобилям """
 
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
-
-class CarInstanceViewSet(viewsets.ReadOnlyModelViewSet):
+class CarInstanceViewSet(mixins.CreateModelMixin,
+                 viewsets.ReadOnlyModelViewSet):
     """ Вывод данных по экземплярам австомобилей """
 
     queryset = CarInstance.objects.all()
     serializer_class = CarInstanceSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "POST":
+            return CarInstanceSerializerCreate
 
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(page, many=True)
-    #         return self.get_paginated_response(serializer.data)
-    #
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     print(serializer.data)
-    #     return super().list(self, request, *args, **kwargs)
+        return self.serializer_class
+

@@ -33,3 +33,12 @@ class CarInstanceSerializer(serializers.ModelSerializer):
         model = CarInstance
         fields = ['id', 'name', 'color', 'condition', 'customers', 'auto_shows', 'producers', 'created', 'updated',
                   'is_active']
+
+
+class CarInstanceSerializerCreate(serializers.ModelSerializer):
+    """  сериализатор для создания экземпляров автомобилей через api"""
+
+    class Meta:
+        model = CarInstance
+        fields = ['name', 'color', 'condition', 'customers', 'auto_shows', 'producers', 'price', 'is_active']
+

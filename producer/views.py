@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework import mixins, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .models import Producer
-from .serializers import ProducerSerializer
+from .serializers import ProducerSerializer, ProducerSerializerCreate
 
 
 class ProducerViewSet(mixins.CreateModelMixin,
@@ -11,8 +12,13 @@ class ProducerViewSet(mixins.CreateModelMixin,
 
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == "POST":
+            return ProducerSerializerCreate
 
+        return self.serializer_class
 
 
 
