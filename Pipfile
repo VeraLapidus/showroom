@@ -9,6 +9,7 @@ psycopg2 = "*"
 django-countries = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
