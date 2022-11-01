@@ -31,8 +31,8 @@ class CarInstanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CarInstance
-        fields = ['id', 'name', 'color', 'condition', 'customers', 'auto_shows', 'producers', 'created', 'updated',
-                  'is_active']
+        fields = ['id', 'name', 'color', 'condition', 'customers', 'auto_shows', 'producers', 'price', 'created',
+                  'updated', 'is_active']
 
 
 class CarInstanceSerializerCreate(serializers.ModelSerializer):
@@ -41,4 +41,3 @@ class CarInstanceSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = CarInstance
         fields = ['name', 'color', 'condition', 'customers', 'auto_shows', 'producers', 'price', 'is_active']
-
