@@ -23,7 +23,6 @@ class Car(models.Model):
 
 
     class Meta:
-        # ordering = ['brand, model, year']
         verbose_name = 'Автомобиль'
         verbose_name_plural = 'Автомобили'
 

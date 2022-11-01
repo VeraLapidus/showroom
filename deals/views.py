@@ -15,10 +15,10 @@ class DealViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Deal.objects.all()
     serializer_class = DealSerializer
     permission_classes = (IsAdminUser,)
-    filter_backends = (rest_framework.DjangoFilterBackend, filters.SearchFilter)
+    filter_backends = (rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filterset_class = DealFilter
     search_fields = ['producers__name', 'auto_shows__name', 'customers__last_name', 'car_instances__name__brand']
-
+    ordering_fields = ['price', 'id']          #http://127.0.0.1:8000/api/deal/?ordering=-price
 
 
 
