@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import filters
 from django_filters import rest_framework
 from rest_framework import viewsets
@@ -18,11 +17,5 @@ class DealViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filterset_class = DealFilter
     search_fields = ['producers__name', 'auto_shows__name', 'customers__last_name', 'car_instances__name__brand']
-    ordering_fields = ['price', 'id']          #http://127.0.0.1:8000/api/deal/?ordering=-price
+    ordering_fields = ['price', 'id']          #http://127.0.0.1:8000/deal/?ordering=-price
 
-
-
-def start_page(request):
-    """Функция вывода стартовой страницы"""
-
-    return render(request, 'start_page.html')

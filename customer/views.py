@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -16,7 +15,7 @@ class CustomerViewSet(mixins.CreateModelMixin,
     serializer_class = CustomerSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = CustomerFilter                        #http://127.0.0.1:8000/customer/api/customer/?last_name=Titov&min_balance=100
+    filterset_class = CustomerFilter                        #http://127.0.0.1:8000/customer/?last_name=Titov&min_balance=100
 
 
 def get_serializer_class(self, *args, **kwargs):
@@ -25,15 +24,3 @@ def get_serializer_class(self, *args, **kwargs):
 
         return self.serializer_class
 
-
-
-
-
-
-
-def list_customers(request):
-    """Функция вывода списка всех покупателей"""
-
-    customers = Customer.objects.all()
-    context = {'customers': customers}
-    return render(request, 'list_customers.html', context)

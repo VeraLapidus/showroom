@@ -1,8 +1,0 @@
-{% extends "start_page.html" %}
-
-{% block content %}
-<h3>Поставщики:</h3>
-    {% for producer in producers %}
-        <p>{{ producer.name }}</p>
-    {% endfor %}
-{% endblock %}

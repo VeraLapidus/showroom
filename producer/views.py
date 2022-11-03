@@ -24,12 +24,3 @@ def get_serializer_class(self, *args, **kwargs):
 
         return self.serializer_class
 
-
-
-
-def list_producers(request):
-    """Функция вывода списка всех поставщиков"""
-
-    producers = Producer.objects.all()
-    context = {'producers': producers}
-    return render(request, 'list_producers.html', context)

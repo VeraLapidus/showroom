@@ -16,7 +16,7 @@ class CarViewSet(mixins.CreateModelMixin,
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (rest_framework.DjangoFilterBackend,)
-    filterset_class = CarFilter        # http://127.0.0.1:8000/car/api/car/?brand=Audi&model=A3&min_year=2015
+    filterset_class = CarFilter        # http://127.0.0.1:8000/car/?brand=Audi&model=A3&min_year=2015
 
 
 class CarInstanceViewSet(mixins.CreateModelMixin,
