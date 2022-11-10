@@ -1,20 +1,17 @@
-from django.shortcuts import render, get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import GenericViewSet
 
-from .filters import AutoShowFilter
-from .models import AutoShow
-from .serializers import AutoShowSerializer, AutoShowSerializerCreate
+from auto_show.filters import AutoShowFilter
+from auto_show.models import AutoShow
+from auto_show.serializers import AutoShowSerializer, AutoShowSerializerCreate
 
 
 class AutoShowViewSet(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       mixins.ListModelMixin,
                       GenericViewSet):
-    """  Вывод данных по автосалонам с возможностью создания автосалона """
-
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

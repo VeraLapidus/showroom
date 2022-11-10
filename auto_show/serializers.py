@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import AutoShow
+from auto_show.models import AutoShow
 
 
 class AutoShowSerializer(serializers.ModelSerializer):
-    """ сериализатор данных автосалона """
+    """Serializer for AutoShow's data"""
 
     auto_shows = serializers.StringRelatedField(many=True)
 
@@ -15,7 +15,7 @@ class AutoShowSerializer(serializers.ModelSerializer):
 
 
 class AutoShowSerializerCreate(serializers.ModelSerializer):
-    """ сериализатор данных автосалона для создания через api"""
+    """Serializer for AutoShow's data (creating instances via api)"""
 
     class Meta:
         model = AutoShow

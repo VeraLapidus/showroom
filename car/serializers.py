@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
 from auto_show.serializers import AutoShowSerializer
+from car.models import Car, CarInstance
 from customer.serializers import CustomerSerializer
 from producer.serializers import ProducerSerializer
-from .models import Car, CarInstance
 
 
 class CarSerializer(serializers.ModelSerializer):
-    """ сериализатор для данных по автомобилям """
+    """Serializer for Car's data"""
 
     car_instances = serializers.StringRelatedField(many=True)
 
@@ -17,7 +17,7 @@ class CarSerializer(serializers.ModelSerializer):
 
 
 class CarInstanceSerializer(serializers.ModelSerializer):
-    """  сериализатор для данных по экземплярам автомобилей """
+    """Serializer for CarInstance's data"""
 
     name = serializers.SlugRelatedField(slug_field='full_name', read_only=True)
     producers = serializers.SlugRelatedField(slug_field='name', read_only=True)
@@ -36,7 +36,7 @@ class CarInstanceSerializer(serializers.ModelSerializer):
 
 
 class CarInstanceSerializerCreate(serializers.ModelSerializer):
-    """  сериализатор для создания экземпляров автомобилей через api"""
+    """Serializer for CarInstance's data (creating instances via api)"""
 
     class Meta:
         model = CarInstance

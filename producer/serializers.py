@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import Producer
+from producer.models import Producer
 
 
 class ProducerSerializer(serializers.ModelSerializer):
-    """ сериализатор для данных по поставщикам """
+    """Serializer for Producer's data"""
 
     producers = serializers.StringRelatedField(many=True)
 
@@ -15,7 +15,7 @@ class ProducerSerializer(serializers.ModelSerializer):
 
 
 class ProducerSerializerCreate(serializers.ModelSerializer):
-    """ сериализатор для создания поставщика """
+    """Serializer for Producer's data (creating instances via api)"""
 
     class Meta:
         model = Producer

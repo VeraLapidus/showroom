@@ -1,12 +1,12 @@
 from django_filters import rest_framework as filters
 
-from .models import Deal
+from deals.models import Deal
 
 
 class DealFilter(filters.FilterSet):
-    """  Фильтр-класс для модели сделки  """
+    """Filter class for Deal"""
 
-    price = filters.RangeFilter()      #http://127.0.0.1:8000/api/deal/?price_max=100
+    price = filters.RangeFilter()
 
     class Meta:
         model = Deal

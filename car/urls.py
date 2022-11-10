@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .views import CarViewSet, CarInstanceViewSet
+from car.views import CarViewSet, CarInstanceViewSet
 
 app_name = 'car'
 

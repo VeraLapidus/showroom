@@ -6,8 +6,19 @@ from customer.models import Customer
 from producer.models import Producer
 
 
+# class Сreation(models.Model):
+#     """Abstract model"""
+#
+#     is_active = models.BooleanField(default=True, verbose_name='Активен')
+#     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+#     updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+#
+#     class Meta:
+#         abstract = True
+
+
 class Deal(models.Model):
-    """ Сделки """
+    """Model for Deal"""
 
     name = models.CharField(max_length=200, blank=True, verbose_name="Название сделки")
 
@@ -20,8 +31,8 @@ class Deal(models.Model):
     price = models.PositiveIntegerField(verbose_name='Сумма сделки, USD')
 
     is_active = models.BooleanField(default=True, verbose_name='Активен')
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата совершения сделки")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления сделки")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     class Meta:
         ordering = ['name']
@@ -30,6 +41,3 @@ class Deal(models.Model):
 
     def __str__(self):
         return self.name
-
-
-

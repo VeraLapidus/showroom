@@ -2,11 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django_countries.fields import CountryField
 
-from producer.models import ActionProducer, DiscountProducer
 
 
 class AutoShow(models.Model):
-    """ Класс автосалона """
+    """Model for AutoShow"""
 
     name = models.CharField(max_length=200, verbose_name="Название автосалона")
     country = CountryField(verbose_name="Страна")
@@ -18,12 +17,12 @@ class AutoShow(models.Model):
     list_producers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список поставщиков")
     list_customers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список покупателей")
 
-    # discount_producers = models.ForeignKey(DiscountProducer, blank=True, null=True, on_delete=models.CASCADE, verbose_name="Скидка поставщика")
-    # action_producers = models.ForeignKey(ActionProducer, blank=True, null=True, on_delete=models.CASCADE, verbose_name="Акция поставщика")
-
+    is_active = models.BooleanField(default=True, verbose_name='Активен')
     created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
+
+    # discount_producers = models.ForeignKey(DiscountProducer, blank=True, null=True, on_delete=models.CASCADE, verbose_name="Скидка поставщика")
+    # action_producers = models.ForeignKey(ActionProducer, blank=True, null=True, on_delete=models.CASCADE, verbose_name="Акция поставщика")
 
     class Meta:
         # ordering = ['name']
@@ -36,8 +35,9 @@ class AutoShow(models.Model):
     def get_absolute_url(self):
         return reverse('auto_show:auto_show_detail', args=[self.id])
 
+
 class ActionAutoShow(models.Model):
-    """ Акция - автосалон проводит для покупателя """
+    """Model for Action (AutoShow offers to a Customer)"""
 
     name = models.CharField(max_length=50, verbose_name='Имя')
     amount_action = models.PositiveIntegerField(verbose_name='Скидка в %')
@@ -61,7 +61,7 @@ class ActionAutoShow(models.Model):
 
 
 class DiscountAutoShow(models.Model):
-    """ Скидка постоянного покупателя (автосалон дает скидку покупателю) """
+    """Regular customer discount (AutoShow offers to a Customer)"""
 
     name = models.CharField(max_length=50, verbose_name='Название')
     amount_discount = models.PositiveIntegerField(verbose_name='Размер скидки в %')
@@ -82,4 +82,3 @@ class DiscountAutoShow(models.Model):
 
     def __str__(self):
         return self.name
-

@@ -1,10 +1,12 @@
 from django_filters import rest_framework as filters
 
-from .models import Producer
+from producer.models import Producer
 
 
-class ProducerFilter (filters.FilterSet):
-    """ Фильтр-класс для модели производителя """
+class ProducerFilter(filters.FilterSet):
+    """Filter class for Producer"""
+
+    year_foundation = filters.RangeFilter()
 
     class Meta:
         model = Producer

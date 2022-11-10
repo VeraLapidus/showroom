@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .views import  AutoShowViewSet
+from auto_show.views import AutoShowViewSet
 
 app_name = "auto_show"
 

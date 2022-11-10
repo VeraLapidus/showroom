@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .views import CustomerViewSet
+from customer.views import CustomerViewSet
 
 app_name = "customer"
 

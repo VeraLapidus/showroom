@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .views import ProducerViewSet
+from producer.views import ProducerViewSet
 
 app_name = "producer"
 

@@ -13,9 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions, routers
@@ -58,13 +57,13 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
-    path('api/drf_auth/', include('rest_framework.urls')),   # http://127.0.0.1:8000/api/drf_auth/login/  #Session-based authentication
+    path('api/drf_auth/', include('rest_framework.urls')),
+    # http://127.0.0.1:8000/api/drf_auth/login/  #Session-based authentication
 ]
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-        ] + urlpatterns
-
-
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns

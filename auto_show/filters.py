@@ -1,10 +1,12 @@
 from django_filters import rest_framework as filters
 
-from .models import AutoShow
+from auto_show.models import AutoShow
 
 
 class AutoShowFilter(filters.FilterSet):
-    """ Фильтр-класс для модели автосалона """
+    """Filter class for AutoShow"""
+
+    year_foundation = filters.RangeFilter()
 
     class Meta:
         model = AutoShow
