@@ -35,19 +35,6 @@ router.register(r'auto_show', AutoShowViewSet)
 router.register(r'customer', CustomerViewSet)
 router.register(r'producer', ProducerViewSet)
 
-# swagger
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Showroom DRF",
-        default_version='v1',
-        description="Test description",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
-        license=openapi.License(name="BSD License"),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -55,7 +42,6 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
     path('api/drf_auth/', include('rest_framework.urls')),
     # http://127.0.0.1:8000/api/drf_auth/login/  #Session-based authentication
@@ -64,6 +50,20 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
 
+    # swagger
+    schema_view = get_schema_view(
+        openapi.Info(
+            title="Showroom DRF",
+            default_version='v1',
+            description="Test description",
+            terms_of_service="https://www.google.com/policies/terms/",
+            contact=openapi.Contact(email="contact@snippets.local"),
+            license=openapi.License(name="BSD License"),
+        ),
+        public=True,
+        permission_classes=(permissions.AllowAny,),
+    )
     urlpatterns = [
                       path('__debug__/', include(debug_toolbar.urls)),
+                      path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
                   ] + urlpatterns
