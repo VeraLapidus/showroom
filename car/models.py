@@ -1,5 +1,6 @@
 from django.db import models
 
+from additional.enums import CarStatus
 from additional.models import BaseData
 from auto_show.models import AutoShow
 from producer.models import Producer
@@ -31,9 +32,7 @@ class CarInstance(BaseData):
 
     name = models.ForeignKey(Car, related_name='car_instances', on_delete=models.CASCADE, verbose_name="Автомобиль")
     color = models.CharField(max_length=200, blank=True, null=True, verbose_name="Цвет")
-    CONDITION = [('wish_auto_show', 'желаемый для автосалона'), ('wish_customer', 'желаемый для покупателя'),
-                 ('at auto_show', 'в автосалоне'), ('at_producer', 'у поставщика'), ('at_customer', 'у покупателя')]
-    condition = models.CharField(max_length=40, choices=CONDITION, verbose_name='Статус авто')
+    condition = models.CharField(max_length=60, choices=CarStatus.choices(), verbose_name='Статус авто')
     price = models.PositiveIntegerField(verbose_name='Цена, USD')
     producers = models.ForeignKey(Producer, related_name='producers', on_delete=models.CASCADE, blank=True, null=True,
                                   verbose_name='Поставщик')
