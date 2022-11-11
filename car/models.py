@@ -1,22 +1,18 @@
 from django.db import models
 
+from additional.models import BaseData
 from auto_show.models import AutoShow
 from producer.models import Producer
 from customer.models import Customer
 
 
-class Car(models.Model):
+class Car(BaseData):
     """Model for Car"""
 
     brand = models.CharField(max_length=50, verbose_name="Бренд")
     model = models.CharField(max_length=50, verbose_name=" Mодель")
     year = models.CharField(max_length=4, verbose_name="Год выпуска")
     description = models.TextField(blank=True, verbose_name='Описание')
-
-
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     @property
     def full_name(self):
@@ -30,7 +26,7 @@ class Car(models.Model):
         return f'{self.brand} {self.model} {self.year}'
 
 
-class CarInstance(models.Model):
+class CarInstance(BaseData):
     """Model for CarInstance"""
 
     name = models.ForeignKey(Car, related_name='car_instances', on_delete=models.CASCADE, verbose_name="Автомобиль")
@@ -45,10 +41,6 @@ class CarInstance(models.Model):
                                    verbose_name='Автосалон')
     customers = models.ForeignKey(Customer, related_name='customers', on_delete=models.CASCADE, blank=True, null=True,
                                   verbose_name='Покупатель')
-
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     ### action_producers = models.ForeignKey(ActionProducer, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Акция поставщика")
     # action_auto_shows = models.ForeignKey(ActionAutoShow, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Акция автосалона")

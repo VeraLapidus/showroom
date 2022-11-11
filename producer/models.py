@@ -1,20 +1,13 @@
 from django.db import models
-from django_countries.fields import CountryField
+
+from additional.models import BaseData, MainData
 
 
-class Producer(models.Model):
+class Producer(BaseData, MainData):
     """Model for Producer"""
 
-    name = models.CharField(max_length=200, verbose_name="Поставщик")
-    country = CountryField(verbose_name="Страна")
-    year_foundation = models.PositiveIntegerField(blank=True, null=True, verbose_name='Год основания')
-    balance = models.IntegerField(default=0, verbose_name='Баланс, USD')
     amount_of_clients = models.PositiveIntegerField(blank=True, null=True,
                                                     verbose_name='Количество покупателей-автосалонов')
-
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
 
     class Meta:
         ordering = ['name']
@@ -25,7 +18,7 @@ class Producer(models.Model):
         return self.name
 
 
-class ActionProducer(models.Model):
+class ActionProducer(BaseData):
     """Model for Action (Producer offers to an AutoShow)"""
 
     name = models.CharField(max_length=50, verbose_name='Название')
@@ -36,10 +29,6 @@ class ActionProducer(models.Model):
 
     producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Поставщик")
 
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
-
     class Meta:
         # ordering = ['date_start']
         verbose_name = 'Акция поставщика'
@@ -49,7 +38,7 @@ class ActionProducer(models.Model):
         return self.name
 
 
-class DiscountProducer(models.Model):
+class DiscountProducer(BaseData):
     """Regular customer discount (Producer offers to an AutoShow)"""
 
     name = models.CharField(max_length=50, verbose_name='Имя скидки')
@@ -60,10 +49,6 @@ class DiscountProducer(models.Model):
                                                     verbose_name='Max количество приобретенных авто для скидки')
     description = models.TextField(max_length=500, blank=True, verbose_name="Описание")
     producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Поставщик")
-
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     class Meta:
         # ordering = ['name']

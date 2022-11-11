@@ -1,9 +1,10 @@
 from django.db import models
 
+from additional.models import BaseData
 from auto_show.models import DiscountAutoShow
 
 
-class Customer(models.Model):
+class Customer(BaseData):
     """Model for Customer"""
 
     last_name = models.CharField(max_length=200, verbose_name="Фамилия")
@@ -12,10 +13,6 @@ class Customer(models.Model):
     balance = models.IntegerField(default=0, verbose_name='Баланс, USD')
     discount_auto_shows = models.ForeignKey(DiscountAutoShow, blank=True, null=True, on_delete=models.CASCADE,
                                             verbose_name="Скидка автосалона")
-
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     @property
     def full_name(self):
