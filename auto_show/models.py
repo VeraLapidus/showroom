@@ -1,19 +1,14 @@
 from django.db import models
 from django.urls import reverse
 
-from additional.models import BaseData, MainData
+from abstract.abstract_models import BaseData, MainData
 
 
 class AutoShow(BaseData, MainData):
-    """Model for AutoShow"""
-
     wish_cars = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Авто к приобретению")
     list_auto = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список авто салона")
     list_producers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список поставщиков")
     list_customers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список покупателей")
-
-    # discount_producers = models.ForeignKey(DiscountProducer, blank=True, null=True, on_delete=models.CASCADE, verbose_name="Скидка поставщика")
-    # action_producers = models.ForeignKey(ActionProducer, blank=True, null=True, on_delete=models.CASCADE, verbose_name="Акция поставщика")
 
     class Meta:
         # ordering = ['name']
@@ -35,7 +30,6 @@ class ActionAutoShow(BaseData):
     date_start = models.DateTimeField(verbose_name='Дата начала акции')
     date_finish = models.DateTimeField(verbose_name='Дата окончания акции')
     description = models.TextField(max_length=500, blank=True)
-
     auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, verbose_name='Автосалон')
 
     class Meta:
@@ -55,7 +49,6 @@ class DiscountAutoShow(BaseData):
     max_amount_spent = models.PositiveIntegerField(blank=True, null=True, verbose_name='Max сумма покупок для скидки')
     min_amount_spent = models.PositiveIntegerField(blank=True, null=True, verbose_name='Min сумма покупок для скидки')
     description = models.TextField(max_length=500, blank=True)
-
     auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, verbose_name='Автосалон')
 
     class Meta:

@@ -1,15 +1,14 @@
 from django.db import models
 
-from additional.enums import Participants
-from additional.models import BaseData
+from abstract.abstract_models import BaseData
 from auto_show.models import AutoShow
 from car.models import CarInstance
 from customer.models import Customer
+from deals.enums import Participants
 from producer.models import Producer
 
 
 class Deal(BaseData):
-    """Model for Deal"""
 
     name = models.CharField(max_length=200, blank=True, verbose_name="Название сделки")
     participants = models.CharField(max_length=50, choices=Participants.choices(), verbose_name='Стороны сделки')

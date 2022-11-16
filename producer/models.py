@@ -1,11 +1,9 @@
 from django.db import models
 
-from additional.models import BaseData, MainData
+from abstract.abstract_models import BaseData, MainData
 
 
 class Producer(BaseData, MainData):
-    """Model for Producer"""
-
     amount_of_clients = models.PositiveIntegerField(blank=True, null=True,
                                                     verbose_name='Количество покупателей-автосалонов')
 

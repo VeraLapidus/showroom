@@ -1,11 +1,10 @@
 from django.db import models
 
-from additional.models import BaseData
+from abstract.abstract_models import BaseData
 from auto_show.models import DiscountAutoShow
 
 
 class Customer(BaseData):
-    """Model for Customer"""
 
     last_name = models.CharField(max_length=200, verbose_name="Фамилия")
     first_name = models.CharField(max_length=200, verbose_name="Имя")
