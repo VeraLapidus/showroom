@@ -12,6 +12,8 @@ djangorestframework-simplejwt = "*"
 drf-yasg = "*"
 django-debug-toolbar = "*"
 django-filter = "*"
+celery = "*"
+redis = "*"
 
 [dev-packages]
 

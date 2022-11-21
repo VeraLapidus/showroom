@@ -9,6 +9,7 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - redis
   db:
     image: postgres
     environment:
@@ -16,5 +17,30 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  redis:
+    image: redis
+
+  celery:
+    build: .
+    command: celery -A my_showroom worker -l info
+    volumes:
+       - .:/project
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-ujrhdvphsx0%t7zzrq9pjaedp%^%z$x!rmaf2d2nw=ws9hyb=e
+    depends_on:
+      - redis
+  celery-beat:
+    build: .
+    command: celery -A my_showroom beat -l info
+    volumes:
+      - .:/project
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-ujrhdvphsx0%t7zzrq9pjaedp%^%z$x!rmaf2d2nw=ws9hyb=e
+    depends_on:
+      - redis
+
 volumes:
   postgres_data:
