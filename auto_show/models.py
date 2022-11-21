@@ -5,7 +5,14 @@ from abstract.abstract_models import BaseData, MainData
 
 
 class AutoShow(BaseData, MainData):
-    wish_cars = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Авто к приобретению")
+    wish_cars = models.JSONField(default=dict(
+        {
+            "brand": "",
+            "model": "",
+            "year": "",
+            "color": "",
+            "price": "", }), blank=True, null=True, verbose_name="Авто к приобретению автосалоном")
+
     list_auto = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список авто салона")
     list_producers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список поставщиков")
     list_customers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список покупателей")
