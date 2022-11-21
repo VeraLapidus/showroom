@@ -10,13 +10,11 @@ class Customer(BaseData):
     year_of_birth = models.PositiveIntegerField(blank=True, null=True, verbose_name='Год рождения')
     balance = models.IntegerField(default=0, verbose_name='Баланс, USD')
 
-    wish_cars = models.JSONField(default=dict(
-        {
-            "brand": "",
-            "model": "",
-            "year": "",
-            "color": "",
-            "price": "", }), blank=True, null=True, verbose_name="Авто к приобретению клиентом")
+    wish_car = models.TextField(
+        default='{"brand": None, "model": None, "year": None, "color": None, "price": None}',
+        null=True,
+        blank=True,
+    )
     discount_auto_shows = models.ForeignKey(DiscountAutoShow, blank=True, null=True, on_delete=models.CASCADE,
                                             verbose_name="Скидка автосалона")
 

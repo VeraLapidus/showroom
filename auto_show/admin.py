@@ -6,7 +6,7 @@ from auto_show.models import AutoShow, ActionAutoShow, DiscountAutoShow
 class AutoShowAdmin(admin.ModelAdmin):
     """ModelAdmin class for AutoShow"""
 
-    list_display = ('name', 'country', 'balance', 'wish_cars', 'list_auto', 'is_active')
+    list_display = ('name', 'country', 'balance', 'list_auto', 'is_active')
     list_editable = ('is_active',)
 
 

@@ -12,6 +12,7 @@ from auto_show.serializers import AutoShowSerializer, AutoShowSerializerCreate
 class AutoShowViewSet(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       mixins.ListModelMixin,
+                      mixins.UpdateModelMixin,
                       GenericViewSet):
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
