@@ -11,7 +11,7 @@ class Customer(BaseData):
     balance = models.IntegerField(default=0, verbose_name='Баланс, USD')
 
     wish_car = models.TextField(
-        default='{"brand": None, "model": None, "year": None, "color": None, "price": None}',
+        default='{"brand": "None", "model": "None", "year": "None", "color": "None", "price": "None"}',
         null=True,
         blank=True,
     )

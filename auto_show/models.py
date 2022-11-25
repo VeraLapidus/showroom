@@ -6,7 +6,7 @@ from abstract.abstract_models import BaseData, MainData
 
 class AutoShow(BaseData, MainData):
     wish_car = models.TextField(
-        default='{"brand": None, "model": None, "year": None, "color": None, "price": None}',
+        default='{"brand": "None", "model": "None", "year": "None", "color": "None", "price": "None"}',
         null=True,
         blank=True,
     )

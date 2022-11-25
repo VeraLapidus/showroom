@@ -7,7 +7,7 @@ from producer.models import Producer
 from producer.serializers import ProducerSerializer, ProducerSerializerCreate
 
 
-class ProducerViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
+class ProducerViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

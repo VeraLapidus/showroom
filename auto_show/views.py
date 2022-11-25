@@ -28,5 +28,6 @@ class AutoShowViewSet(mixins.CreateModelMixin,
 
         return self.serializer_class
 
+
 def one():
     tasks.check_balance.delay()
