@@ -203,7 +203,7 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_BEAT_SCHEDULE = {
     "first_task": {
         "task": "auto_show.tasks.sale_car_from_producer",
-        "schedule": 100,
+        "schedule": 30,
         # "schedule": crontab(minute="*/1"),
     },
 }
