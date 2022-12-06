@@ -36,7 +36,8 @@ def sale_car_from_producer():
                                                   name__model=model_wish_showroom,
                                                   price__lte=price_wish_car_int).filter(
                     price__lte=auto_show_balance).order_by('price')[0:1]
-                # получили queryset (авто у поставщика, price - min, если одинаковых авто несколько), соответсвующих машине из wish_car
+                # получили queryset (авто у поставщика, price - min, если одинаковых авто несколько),
+                # соответсвующих машине из wish_car
                 for car in cars:
                     list_wish_car.remove(j)
                     str_wish_car = '  '.join(list_wish_car)  # удаляем покупаемую машину из wish_list автосалона

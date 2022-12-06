@@ -35,16 +35,18 @@ router.register(r'auto_show', AutoShowViewSet)
 router.register(r'customer', CustomerViewSet)
 router.register(r'producer', ProducerViewSet)
 
-
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+
+    # Simple JWT authentication
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
+    # Session-based authentication   # http://127.0.0.1:8000/api/drf_auth/login/
     path('api/drf_auth/', include('rest_framework.urls')),
-    # http://127.0.0.1:8000/api/drf_auth/login/  #Session-based authentication
+
 ]
 
 if settings.DEBUG:
