@@ -11,14 +11,14 @@ class AutoShow(BaseData, MainData):
         blank=True,
     )
 
-    list_auto = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список авто салона")
-    list_producers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список поставщиков")
-    list_customers = models.CharField(max_length=1500, blank=True, null=True, verbose_name="Список покупателей")
+    list_auto = models.CharField(max_length=1500, blank=True, null=True)
+    list_producers = models.CharField(max_length=1500, blank=True, null=True)
+    list_customers = models.CharField(max_length=1500, blank=True, null=True)
 
     class Meta:
         # ordering = ['name']
-        verbose_name = 'Автосалон'
-        verbose_name_plural = 'Автосалоны'
+        verbose_name = 'AutoShow'
+        verbose_name_plural = 'AutoShows'
 
     def __str__(self):
         return self.name
@@ -30,17 +30,17 @@ class AutoShow(BaseData, MainData):
 class ActionAutoShow(BaseData):
     """Model for Action (AutoShow offers to a Customer)"""
 
-    name = models.CharField(max_length=50, verbose_name='Имя')
-    amount_action = models.PositiveIntegerField(verbose_name='Скидка в %')
-    date_start = models.DateTimeField(verbose_name='Дата начала акции')
-    date_finish = models.DateTimeField(verbose_name='Дата окончания акции')
+    name = models.CharField(max_length=50)
+    amount_action = models.PositiveIntegerField(verbose_name="Action's amount, %")
+    date_start = models.DateTimeField()
+    date_finish = models.DateTimeField()
     description = models.TextField(max_length=500, blank=True)
-    auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, verbose_name='Автосалон')
+    auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, verbose_name='Car showroom')
 
     class Meta:
         # ordering = ['date_start']
-        verbose_name = 'Акция автосалона'
-        verbose_name_plural = 'Акции автосалона'
+        verbose_name = "AutoShows action"
+        verbose_name_plural = "AutoShows actions"
 
     def __str__(self):
         return self.name
@@ -49,17 +49,19 @@ class ActionAutoShow(BaseData):
 class DiscountAutoShow(BaseData):
     """Regular customer discount (AutoShow offers to a Customer)"""
 
-    name = models.CharField(max_length=50, verbose_name='Название')
-    amount_discount = models.PositiveIntegerField(verbose_name='Размер скидки в %')
-    max_amount_spent = models.PositiveIntegerField(blank=True, null=True, verbose_name='Max сумма покупок для скидки')
-    min_amount_spent = models.PositiveIntegerField(blank=True, null=True, verbose_name='Min сумма покупок для скидки')
+    name = models.CharField(max_length=50)
+    amount_discount = models.PositiveIntegerField(verbose_name="Discount's amount, %")
+    max_amount_spent = models.PositiveIntegerField(blank=True, null=True,
+                                                   verbose_name="Max purchase's amount for discount")
+    min_amount_spent = models.PositiveIntegerField(blank=True, null=True,
+                                                   verbose_name="Min purchase's amount for discount")
     description = models.TextField(max_length=500, blank=True)
-    auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE, verbose_name='Автосалон')
+    auto_shows = models.ForeignKey(AutoShow, on_delete=models.CASCADE)
 
     class Meta:
         # ordering = ['name']
-        verbose_name = 'Скидка постоянного клиента автосалона'
-        verbose_name_plural = 'Скидки постоянного клиента автосалона'
+        verbose_name = "AutoShows customer discount"
+        verbose_name_plural = "AutoShows customer discounts"
 
     def __str__(self):
         return self.name

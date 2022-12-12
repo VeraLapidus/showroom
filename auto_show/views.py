@@ -3,7 +3,6 @@ from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import GenericViewSet
 
-from auto_show import tasks
 from auto_show.filters import AutoShowFilter
 from auto_show.models import AutoShow
 from auto_show.serializers import AutoShowSerializer, AutoShowSerializerCreate
@@ -18,7 +17,7 @@ class AutoShowViewSet(mixins.CreateModelMixin,
     serializer_class = AutoShowSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = AutoShowFilter  # http://127.0.0.1:8000/auto_show/?country=DE&year_foundation=1999
+    filterset_class = AutoShowFilter
 
     # ordering_fields = ['year_foundation']
 
@@ -29,5 +28,3 @@ class AutoShowViewSet(mixins.CreateModelMixin,
         return self.serializer_class
 
 
-def one():
-    tasks.check_balance.delay()

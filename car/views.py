@@ -13,7 +13,7 @@ class CarViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (rest_framework.DjangoFilterBackend,)
-    filterset_class = CarFilter  # http://127.0.0.1:8000/car/?brand=Audi&model=A3&min_year=2015
+    filterset_class = CarFilter
 
 
 class CarInstanceViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
@@ -21,8 +21,8 @@ class CarInstanceViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet)
     serializer_class = CarInstanceSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filterset_class = CarInstanceFilter  # http://127.0.0.1:8000/car/api/car_instance/?condition=wish_auto_show&max_price=130
-    search_fields = ['name__brand']  # http://127.0.0.1:8000/car/api/car_instance/?search=Mercedes
+    filterset_class = CarInstanceFilter
+    search_fields = ['name__brand']
     ordering_fields = ['name', 'id']
 
     def get_serializer_class(self, *args, **kwargs):

@@ -31,6 +31,7 @@ def sale_car_from_producer():
                 price_wish_car_int = int(price_wish_car)
 
                 # choose car with min price (order_by('price')[0])
+                ### обернуть конструкцию try-exept плюс параметры передавать через filtr params и ** и добавить Q объекты
                 car = CarInstance.objects.filter(producers_id__isnull=False, name__brand=brand_wish_car,
                                                  name__model=model_wish_car, price__lte=price_wish_car_int).filter(
                     price__lte=auto_show_balance).order_by('price')[0]
@@ -45,7 +46,7 @@ def sale_car_from_producer():
                 producers_balance = car.producers.balance + car.price
 
                 # change car's status
-                CarInstance.objects.filter(id=car.id).update(condition="В автосалоне", producers=None,
+                CarInstance.objects.filter(id=car.id).update(status="At AutoShow", producers=None,
                                                              auto_shows=auto_show)
                 # change auto_show's status
                 AutoShow.objects.filter(id=auto_show.id).update(wish_car=str_wish_car, balance=auto_show_balance)
@@ -54,5 +55,5 @@ def sale_car_from_producer():
 
                 # create new deal
                 Deal.objects.create(name=f'{car.name} from {car.producers.name} to {auto_show.name}',
-                                    participants="Поставщик-автосалон", producers=car.producers, auto_shows=auto_show,
+                                    participants="Producer-AutoShow", producers=car.producers, auto_shows=auto_show,
                                     car_instances=car, price=car.price)
