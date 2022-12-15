@@ -1,6 +1,7 @@
 import json
 
 from celery import shared_task
+from django.db.models import Q
 
 from auto_show.models import AutoShow
 from car.models import CarInstance
@@ -19,41 +20,53 @@ def sale_car_from_producer():
         # select auto_show's wish_car and transform it from TextField to list
         list_wish_car = auto_show.wish_car.split('  ')
 
-        # select fields for comparing
-        for elem in list_wish_car:
-            b = json.loads(elem)
-            brand_wish_car = b.get("brand")
-            model_wish_car = b.get("model")
-            price_wish_car = b.get("price")
+        # create list_wish_car_after_search for removing the compared wish_car's element
+        list_wish_car_after_search = list_wish_car
 
-            # check price
-            if price_wish_car != "None" and price_wish_car is not None:
-                price_wish_car_int = int(price_wish_car)
+        # each wish_car from list_wish_car
+        for elem_wish_car in list_wish_car:
+            # make a dict from wish_car
+            elem_wish_car_dict = json.loads(elem_wish_car)
 
-                # choose car with min price (order_by('price')[0])
-                ### обернуть конструкцию try-exept плюс параметры передавать через filtr params и ** и добавить Q объекты
-                car = CarInstance.objects.filter(producers_id__isnull=False, name__brand=brand_wish_car,
-                                                 name__model=model_wish_car, price__lte=price_wish_car_int).filter(
-                    price__lte=auto_show_balance).order_by('price')[0]
+            # select not empty dict's field for comparing with producer's cars
+            dict_for_select = {}
+            for key, value in elem_wish_car_dict.items():
+                if key == 'brand' and value != "None":
+                    dict_for_select['name__brand'] = value
+                if key == 'model' and value != "None":
+                    dict_for_select['name__model'] = value
+                if key == 'year' and value != "None":
+                    dict_for_select['name__year__gte'] = value
+                if key == 'color' and value != "None":
+                    dict_for_select['color'] = value
+                if key == 'price' and value != "None":
+                    dict_for_select['price__lte'] = value
 
-                # delete car from auto_show's wish_car
-                list_wish_car.remove(elem)
-                str_wish_car = '  '.join(list_wish_car)
+            # select wish car from producer's cars
+            if dict_for_select != {}:
+                car = CarInstance.objects.filter(
+                    Q(producers_id__isnull=False) & Q(price__lte=auto_show_balance)).filter(**dict_for_select).order_by(
+                    'price').first()
 
-                # decrease auto_show's balance
-                auto_show_balance = auto_show.balance - car.price
-                # increase producer's balance
-                producers_balance = car.producers.balance + car.price
+                if car is not None:
+                    # delete car from auto_show's wish_car
+                    list_wish_car_after_search.remove(elem_wish_car)
+                    str_wish_car = '  '.join(list_wish_car_after_search)
 
-                # change car's status
-                CarInstance.objects.filter(id=car.id).update(status="At AutoShow", producers=None,
-                                                             auto_shows=auto_show)
-                # change auto_show's status
-                AutoShow.objects.filter(id=auto_show.id).update(wish_car=str_wish_car, balance=auto_show_balance)
-                # change producer's status
-                Producer.objects.filter(id=car.producers.id).update(balance=producers_balance)
+                    # decrease auto_show's balance
+                    auto_show_balance = auto_show.balance - car.price
+                    # increase producer's balance
+                    producers_balance = car.producers.balance + car.price
 
-                # create new deal
-                Deal.objects.create(name=f'{car.name} from {car.producers.name} to {auto_show.name}',
-                                    participants="Producer-AutoShow", producers=car.producers, auto_shows=auto_show,
-                                    car_instances=car, price=car.price)
+                    # update CarInstance object
+                    CarInstance.objects.filter(id=car.id).update(condition="At AutoShow", producers=None,
+                                                                 auto_shows=auto_show)
+                    # update AutoShow's object
+                    AutoShow.objects.filter(id=auto_show.id).update(wish_car=str_wish_car, balance=auto_show_balance)
+                    # update Producer's object
+                    Producer.objects.filter(id=car.producers.id).update(balance=producers_balance)
+
+                    # create new deal
+                    Deal.objects.create(name=f'{car.name} from {car.producers.name} to {auto_show.name}',
+                                        participants="Producer-AutoShow", producers=car.producers, auto_shows=auto_show,
+                                        car_instances=car, price=car.price)

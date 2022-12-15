@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class Participants(Enum):
-    PRODUCER_SHOWROOM = "Producer-AutoShow"
-    SHOWROOM_CUSTOMER = "AutoShow-Customer"
+    PRODUCER_AUTOSHOW = "Producer-AutoShow"
+    AUTOSHOW_CUSTOMER = "AutoShow-Customer"
 
     @classmethod
     def choices(cls):

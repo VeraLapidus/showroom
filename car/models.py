@@ -28,7 +28,7 @@ class Car(BaseData):
 class CarInstance(BaseData):
     name = models.ForeignKey(Car, related_name='car_instances', on_delete=models.CASCADE)
     color = models.CharField(max_length=200, blank=True, null=True)
-    status = models.CharField(max_length=60, choices=CarStatus.choices())
+    condition = models.CharField(max_length=60, choices=CarStatus.choices())
     price = models.DecimalField(default=0, max_digits=6, decimal_places=2)
     producers = models.ForeignKey(Producer, related_name='producers', on_delete=models.CASCADE, blank=True, null=True)
     auto_shows = models.ForeignKey(AutoShow, related_name='auto_shows', on_delete=models.CASCADE, blank=True, null=True)

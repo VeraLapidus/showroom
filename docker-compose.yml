@@ -7,16 +7,17 @@ services:
       - .:/project
     ports:
       - 8000:8000
+    env_file:
+      - ./.env
     depends_on:
       - db
       - redis
   db:
     image: postgres
-    environment:
-      POSTGRES_PASSWORD: postgres
-
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
 
   redis:
     image: redis
@@ -26,19 +27,17 @@ services:
     command: celery -A my_showroom worker -l info
     volumes:
        - .:/project
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=django-insecure-ujrhdvphsx0%t7zzrq9pjaedp%^%z$x!rmaf2d2nw=ws9hyb=e
+    env_file:
+      - ./.env
     depends_on:
       - redis
   celery-beat:
     build: .
     command: celery -A my_showroom beat -l info
+    env_file:
+      - ./.env
     volumes:
       - .:/project
-    environment:
-      - DEBUG=1
-      - SECRET_KEY=django-insecure-ujrhdvphsx0%t7zzrq9pjaedp%^%z$x!rmaf2d2nw=ws9hyb=e
     depends_on:
       - redis
 
