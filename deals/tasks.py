@@ -29,23 +29,18 @@ def sale_car_from_producer():
             elem_wish_car_dict = json.loads(elem_wish_car)
 
             # select not empty dict's field for comparing with producer's cars
-            dict_for_select = {}
+            dict_from_auto_show = {}
+            dict_param = {'brand': 'name__brand', 'model': 'name__model', 'year': 'name__year__gte', 'color': 'color',
+                          'price': 'price__lte'}
             for key, value in elem_wish_car_dict.items():
-                if key == 'brand' and value != "None":
-                    dict_for_select['name__brand'] = value
-                if key == 'model' and value != "None":
-                    dict_for_select['name__model'] = value
-                if key == 'year' and value != "None":
-                    dict_for_select['name__year__gte'] = value
-                if key == 'color' and value != "None":
-                    dict_for_select['color'] = value
-                if key == 'price' and value != "None":
-                    dict_for_select['price__lte'] = value
+                for key2, value2 in dict_param.items():
+                    if key == key2 and value != "None":
+                        dict_from_auto_show[value2] = value
 
             # select wish car from producer's cars
-            if dict_for_select != {}:
+            if dict_from_auto_show != {}:
                 car = CarInstance.objects.filter(
-                    Q(producers_id__isnull=False) & Q(price__lte=auto_show_balance)).filter(**dict_for_select).order_by(
+                    Q(producers_id__isnull=False) & Q(price__lte=auto_show_balance)).filter(**dict_from_auto_show).order_by(
                     'price').first()
 
                 if car is not None:
