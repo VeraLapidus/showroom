@@ -4,6 +4,7 @@ from celery import shared_task
 from django.db.models import Q
 
 from auto_show.models import AutoShow
+from car.enums import CarStatus
 from car.models import CarInstance
 from deals.models import Deal
 from producer.models import Producer
@@ -40,7 +41,8 @@ def sale_car_from_producer():
             # select wish car from producer's cars
             if dict_from_auto_show != {}:
                 car = CarInstance.objects.filter(
-                    Q(producers_id__isnull=False) & Q(price__lte=auto_show_balance)).filter(**dict_from_auto_show).order_by(
+                    Q(producers_id__isnull=False) & Q(price__lte=auto_show_balance)).filter(
+                    **dict_from_auto_show).order_by(
                     'price').first()
 
                 if car is not None:
@@ -60,7 +62,6 @@ def sale_car_from_producer():
                     AutoShow.objects.filter(id=auto_show.id).update(wish_car=str_wish_car, balance=auto_show_balance)
                     # update Producer's object
                     Producer.objects.filter(id=car.producers.id).update(balance=producers_balance)
-
                     # create new deal
                     Deal.objects.create(name=f'{car.name} from {car.producers.name} to {auto_show.name}',
                                         participants="Producer-AutoShow", producers=car.producers, auto_shows=auto_show,
