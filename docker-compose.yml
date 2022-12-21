@@ -7,14 +7,39 @@ services:
       - .:/project
     ports:
       - 8000:8000
+    env_file:
+      - ./.env
     depends_on:
       - db
+      - redis
   db:
     image: postgres
-    environment:
-      POSTGRES_PASSWORD: postgres
-
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  redis:
+    image: redis
+
+  celery:
+    build: .
+    command: celery -A my_showroom worker -l info
+    volumes:
+       - .:/project
+    env_file:
+      - ./.env
+    depends_on:
+      - redis
+  celery-beat:
+    build: .
+    command: celery -A my_showroom beat -l info
+    env_file:
+      - ./.env
+    volumes:
+      - .:/project
+    depends_on:
+      - redis
+
 volumes:
   postgres_data:

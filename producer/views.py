@@ -7,12 +7,12 @@ from producer.models import Producer
 from producer.serializers import ProducerSerializer, ProducerSerializerCreate
 
 
-class ProducerViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
+class ProducerViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = ProducerFilter  # http://127.0.0.1:8000/producer/api/producer/?country=DE&year_foundation=1966
+    filterset_class = ProducerFilter
 
 
 def get_serializer_class(self, *args, **kwargs):

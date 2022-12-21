@@ -1,18 +1,15 @@
 from django.db import models
 
-from additional.models import BaseData, MainData
+from abstract.abstract_models import BaseData, MainData
 
 
 class Producer(BaseData, MainData):
-    """Model for Producer"""
-
-    amount_of_clients = models.PositiveIntegerField(blank=True, null=True,
-                                                    verbose_name='Количество покупателей-автосалонов')
+    amount_of_clients = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ['name']
-        verbose_name = 'Поставщик'
-        verbose_name_plural = 'Поставщики'
+        verbose_name = 'Producer'
+        verbose_name_plural = 'Producers'
 
     def __str__(self):
         return self.name
@@ -21,18 +18,17 @@ class Producer(BaseData, MainData):
 class ActionProducer(BaseData):
     """Model for Action (Producer offers to an AutoShow)"""
 
-    name = models.CharField(max_length=50, verbose_name='Название')
-    amount_action = models.PositiveIntegerField(verbose_name='Скидка в %')
-    date_start = models.DateTimeField(verbose_name='Дата начала')
-    date_finish = models.DateTimeField(verbose_name='Дата окончания')
-    description = models.TextField(max_length=500, blank=True, verbose_name='Описание')
-
-    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Поставщик")
+    name = models.CharField(max_length=50)
+    amount_action = models.PositiveIntegerField()
+    date_start = models.DateTimeField()
+    date_finish = models.DateTimeField()
+    description = models.TextField(max_length=500, blank=True)
+    producers = models.ForeignKey(Producer, on_delete=models.CASCADE)
 
     class Meta:
         # ordering = ['date_start']
-        verbose_name = 'Акция поставщика'
-        verbose_name_plural = 'Акции поставщика'
+        verbose_name = "Producer's action"
+        verbose_name_plural = "Producer's actions"
 
     def __str__(self):
         return self.name
@@ -41,19 +37,19 @@ class ActionProducer(BaseData):
 class DiscountProducer(BaseData):
     """Regular customer discount (Producer offers to an AutoShow)"""
 
-    name = models.CharField(max_length=50, verbose_name='Имя скидки')
-    amount_discount = models.PositiveIntegerField(verbose_name='Размер скидки в %')
+    name = models.CharField(max_length=50)
+    amount_discount = models.PositiveIntegerField()
     quantity_cars_min = models.PositiveIntegerField(blank=True, null=True,
-                                                    verbose_name='Min количество приобретенных авто для скидки')
+                                                    verbose_name="Min car's quantity for discount")
     quantity_cars_max = models.PositiveIntegerField(blank=True, null=True,
-                                                    verbose_name='Max количество приобретенных авто для скидки')
-    description = models.TextField(max_length=500, blank=True, verbose_name="Описание")
-    producers = models.ForeignKey(Producer, on_delete=models.CASCADE, verbose_name="Поставщик")
+                                                    verbose_name="Max car's quantity for discount")
+    description = models.TextField(max_length=500, blank=True)
+    producers = models.ForeignKey(Producer, on_delete=models.CASCADE)
 
     class Meta:
         # ordering = ['name']
-        verbose_name = 'Скидка постоянного клиента поставщика'
-        verbose_name_plural = 'Скидки постоянного клиента поставщика'
+        verbose_name = "Producer's customer discount"
+        verbose_name_plural = "Producer's customer discounts"
 
     def __str__(self):
         return self.name

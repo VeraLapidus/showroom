@@ -10,8 +10,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['id', 'last_name', 'first_name', 'year_of_birth', 'balance', 'created', 'updated', 'is_active',
-                  'customers']
+        fields = ['id', 'last_name', 'first_name', 'year_of_birth', 'balance', 'wish_car', 'created', 'updated',
+                  'is_active', 'customers']
 
 
 class CustomerSerializerCreate(serializers.ModelSerializer):
@@ -19,4 +19,4 @@ class CustomerSerializerCreate(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['last_name', 'first_name', 'year_of_birth', 'balance', 'is_active']
+        fields = ['last_name', 'first_name', 'year_of_birth', 'balance', 'wish_car', 'is_active']

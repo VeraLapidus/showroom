@@ -11,12 +11,13 @@ from auto_show.serializers import AutoShowSerializer, AutoShowSerializerCreate
 class AutoShowViewSet(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       mixins.ListModelMixin,
+                      mixins.UpdateModelMixin,
                       GenericViewSet):
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = AutoShowFilter  # http://127.0.0.1:8000/auto_show/?country=DE&year_foundation=1999
+    filterset_class = AutoShowFilter
 
     # ordering_fields = ['year_foundation']
 
@@ -25,3 +26,5 @@ class AutoShowViewSet(mixins.CreateModelMixin,
             return AutoShowSerializerCreate
 
         return self.serializer_class
+
+

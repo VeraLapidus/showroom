@@ -12,7 +12,7 @@ class CustomerViewSet(mixins.CreateModelMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = CustomerSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = CustomerFilter  # http://127.0.0.1:8000/customer/?last_name=Titov&min_balance=100
+    filterset_class = CustomerFilter
 
 
 def get_serializer_class(self, *args, **kwargs):
