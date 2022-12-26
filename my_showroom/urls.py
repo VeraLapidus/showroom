@@ -45,8 +45,8 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     #djoser
-    # path('auth/', include('djoser.urls')),
-    # path('auth/', include('djoser.urls.jwt')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 
     # Session-based authentication   # http://127.0.0.1:8000/api/drf_auth/login/
     path('api/drf_auth/', include('rest_framework.urls')),

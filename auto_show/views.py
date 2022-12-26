@@ -1,6 +1,8 @@
+from django.core.mail import send_mail
+
 from django_filters import rest_framework as filters
 from rest_framework import mixins
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from auto_show.filters import AutoShowFilter
@@ -15,7 +17,7 @@ class AutoShowViewSet(mixins.CreateModelMixin,
                       GenericViewSet):
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AutoShowFilter
 

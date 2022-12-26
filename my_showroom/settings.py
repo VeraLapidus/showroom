@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_filters',
     'rest_framework_simplejwt',
+    'djoser',
 
     'auto_show',
     'car',
@@ -156,17 +157,26 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
 }
+# smtp
+EMAIL_USE_TLS = False
+EMAIL_HOST = os.environ["EMAIL_HOST"]
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# DJOSER = {
-#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-#     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-#     'ACTIVATION_URL': 'users/activate/{uid}/{token}',
-#     'SEND_ACTIVATION_EMAIL': True,
-#     'SERIALIZERS': {},
-# }
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    # 'SET_USERNAME_RETYPE': True,
+    'ACTIVATION_URL': 'users/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {},
+}
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
