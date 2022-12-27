@@ -26,6 +26,7 @@ from customer.views import CustomerViewSet
 from deals.views import DealViewSet
 from my_showroom import settings
 from producer.views import ProducerViewSet
+from user.views import UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'deal', DealViewSet)
@@ -34,6 +35,8 @@ router.register(r'car_instance', CarInstanceViewSet)
 router.register(r'auto_show', AutoShowViewSet)
 router.register(r'customer', CustomerViewSet)
 router.register(r'producer', ProducerViewSet)
+router.register(r'user', UserViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'deals',
     'producer',
     'abstract',
+    'user',
 
 ]
 
@@ -141,6 +142,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'user.User'
+
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -172,7 +175,10 @@ DJOSER = {
     # 'SET_USERNAME_RETYPE': True,
     'ACTIVATION_URL': 'users/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
-    'SERIALIZERS': {},
+    'SERIALIZERS': {
+        "user": "user.serializers.UserSerializer",
+        "current_user": "user.serializers.UserSerializer",
+    },
 }
 
 SIMPLE_JWT = {

@@ -8,5 +8,7 @@ class User(AbstractUser):
     is_customer = models.BooleanField(default=False)
     is_producer = models.BooleanField(default=False)
 
+    REQUIRED_FIELDS = ['is_customer', 'is_auto_show', 'is_producer', 'email']
+
     def __str__(self):
         return self.username

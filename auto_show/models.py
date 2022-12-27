@@ -2,9 +2,11 @@ from django.db import models
 from django.urls import reverse
 
 from abstract.abstract_models import BaseData, MainData
+from user.models import User
 
 
 class AutoShow(BaseData, MainData):
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     wish_car = models.TextField(
         default='{"brand": "None", "model": "None", "year": "None", "color": "None", "price": "None"}',
         null=True,
