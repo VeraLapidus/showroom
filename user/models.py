@@ -1,14 +1,14 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from user.enums import Usertype
+
 
 class User(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
-    is_auto_show = models.BooleanField(default=False)
-    is_customer = models.BooleanField(default=False)
-    is_producer = models.BooleanField(default=False)
+    usertype = models.CharField(max_length=50, choices=Usertype.choices())
 
-    REQUIRED_FIELDS = ['is_customer', 'is_auto_show', 'is_producer', 'email']
+    REQUIRED_FIELDS = ['usertype', 'email']
 
     def __str__(self):
         return self.username
