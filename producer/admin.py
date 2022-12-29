@@ -6,7 +6,7 @@ from producer.models import Producer, ActionProducer, DiscountProducer
 class ProducerAdmin(admin.ModelAdmin):
     """Admin class for Producer"""
 
-    list_display = ('name', 'country', 'balance', 'amount_of_clients', 'is_active')
+    list_display = ('name', 'country', 'balance', 'owner', 'is_active')
     list_editable = ('is_active',)
 
 

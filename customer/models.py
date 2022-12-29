@@ -2,6 +2,7 @@ from django.db import models
 
 from abstract.abstract_models import BaseData
 from auto_show.models import DiscountAutoShow
+from user.models import User
 
 
 class Customer(BaseData):
@@ -9,7 +10,7 @@ class Customer(BaseData):
     first_name = models.CharField(max_length=200)
     year_of_birth = models.PositiveIntegerField(blank=True, null=True)
     balance = models.DecimalField(default=0, max_digits=6, decimal_places=2)
-
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     wish_car = models.TextField(
         default='{"brand": "None", "model": "None", "year": "None", "color": "None", "price": "None"}',
         null=True,

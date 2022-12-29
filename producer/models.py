@@ -1,10 +1,12 @@
 from django.db import models
 
 from abstract.abstract_models import BaseData, MainData
+from user.models import User
 
 
 class Producer(BaseData, MainData):
     amount_of_clients = models.PositiveIntegerField(blank=True, null=True)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
 
     class Meta:
         ordering = ['name']
