@@ -9,7 +9,7 @@ class User(AbstractUser):
         ('Producer', 'Producer'),
         ('Admin', 'Admin'),
     )
-    usertype = models.CharField(max_length=50, choices=USERTYPE)
+    usertype = models.CharField(max_length=8, choices=USERTYPE)
     email = models.EmailField(max_length=255, unique=True)
 
     REQUIRED_FIELDS = ['usertype', 'email']
