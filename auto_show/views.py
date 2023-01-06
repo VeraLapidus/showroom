@@ -1,8 +1,8 @@
-
 from django_filters import rest_framework as filters
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from auto_show.filters import AutoShowFilter
@@ -24,8 +24,7 @@ class AutoShowViewSet(mixins.CreateModelMixin,
 
     @action(methods=['get'], detail=True)
     def stat(self, request, pk=None):
-        return statistics(request, pk)
-
+        return Response(statistics(pk))
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == "POST":

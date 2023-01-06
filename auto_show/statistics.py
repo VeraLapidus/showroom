@@ -1,12 +1,11 @@
 from django.db.models import Sum, Q
-from rest_framework.response import Response
 
 from auto_show.models import AutoShow
 from deals.models import Deal
 from deals.serializers import DealSerializer
 
 
-def statistics(request, pk=None):
+def statistics(pk):
     auto_show = AutoShow.objects.get(pk=pk)
     queryset_for_statistics = Deal.objects.filter(Q(participants="Producer-AutoShow") & Q(auto_shows=auto_show.id))
     amount_of_bought_cars = queryset_for_statistics.count()
@@ -17,6 +16,5 @@ def statistics(request, pk=None):
     for deal in DealSerializer(queryset_for_statistics, many=True).data:
         bought_cars.append(deal.get("car_instances"))
 
-    context = {'auto_show': auto_show.name, 'amount_of_bought_cars': amount_of_bought_cars,
-               'consumption, USD': consumption, 'bought_cars': bought_cars}
-    return Response(context)
+    return {'auto_show': auto_show.name, 'amount_of_bought_cars': amount_of_bought_cars,
+            'consumption, USD': consumption, 'bought_cars': bought_cars}
