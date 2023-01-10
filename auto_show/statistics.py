@@ -3,11 +3,13 @@ from django.db.models import Sum, Q
 from auto_show.models import AutoShow
 from deals.models import Deal
 from deals.serializers import DealSerializer
+from deals.enums import Participants
 
 
 def statistics(pk):
     auto_show = AutoShow.objects.get(pk=pk)
-    queryset_for_statistics = Deal.objects.filter(Q(participants="Producer-AutoShow") & Q(auto_shows=auto_show.id))
+    queryset_for_statistics = Deal.objects.filter(
+        Q(participants=Participants.PRODUCER_AUTOSHOW.value) & Q(auto_shows=auto_show.id))
     amount_of_bought_cars = queryset_for_statistics.count()
     consumption = queryset_for_statistics.aggregate(Sum('price'))['price__sum']
 

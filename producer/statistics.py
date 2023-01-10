@@ -1,5 +1,6 @@
 from django.db.models import Sum, Q
 
+from deals.enums import Participants
 from deals.models import Deal
 from deals.serializers import DealSerializer
 from producer.models import Producer
@@ -7,7 +8,8 @@ from producer.models import Producer
 
 def statistics(pk):
     producer = Producer.objects.get(pk=pk)
-    queryset_for_statistics = Deal.objects.filter(Q(participants="Producer-AutoShow") & Q(producers=producer.id))
+    queryset_for_statistics = Deal.objects.filter(
+        Q(participants=Participants.PRODUCER_AUTOSHOW.value) & Q(producers=producer.id))
     amount_of_sold_cars = queryset_for_statistics.count()
     profit = queryset_for_statistics.aggregate(Sum('price'))['price__sum']
 
