@@ -1,6 +1,4 @@
 from django.db import models
-from django.urls import reverse
-
 from abstract.abstract_models import BaseData, MainData
 from user.models import User
 
@@ -24,9 +22,6 @@ class AutoShow(BaseData, MainData):
 
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse('auto_show:auto_show_detail', args=[self.id])
 
 
 class ActionAutoShow(BaseData):

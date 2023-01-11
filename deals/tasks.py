@@ -1,10 +1,9 @@
 import json
 
 from celery import shared_task
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from auto_show.models import AutoShow
-from car.enums import CarStatus
 from car.models import CarInstance
 from deals.models import Deal
 from producer.models import Producer
