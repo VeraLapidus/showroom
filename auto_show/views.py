@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 from rest_framework import mixins
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -18,7 +18,7 @@ class AutoShowViewSet(mixins.CreateModelMixin,
                       GenericViewSet):
     queryset = AutoShow.objects.all()
     serializer_class = AutoShowSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = AutoShowFilter
 

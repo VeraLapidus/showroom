@@ -16,6 +16,7 @@ celery = "*"
 redis = "*"
 python-dotenv = "*"
 djoser = "*"
+pytest-django = "*"
 
 [dev-packages]
 
