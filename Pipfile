@@ -17,6 +17,8 @@ redis = "*"
 python-dotenv = "*"
 djoser = "*"
 pytest-django = "*"
+factory-boy = "*"
+pytest-factoryboy = "*"
 
 [dev-packages]
 
