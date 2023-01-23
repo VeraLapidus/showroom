@@ -16,8 +16,8 @@ class CarFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Car
 
-    brand = factory.Faker("word", ext_word_list=["Audi", "Mercedes", "BMW", "VW", "Ford"]),
-    model = factory.Faker("word", ext_word_list=["A3", "Q7", "X5", "Polo", "Mustang"]),
+    brand = "Audi"
+    model = factory.Faker("word", ext_word_list=["A3", "Q7"]),
     year = factory.Faker("year")
     description = factory.Faker("sentence", nb_words=10)
 

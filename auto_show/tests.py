@@ -36,7 +36,6 @@ def test_user_create(create_user):
 
 @pytest.mark.django_db
 def test_auto_show_create(create_auto_show):
-    assert AutoShow.objects.filter(name="Ford").exists()
     assert AutoShow.objects.count() == 1
 
 

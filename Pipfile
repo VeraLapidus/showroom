@@ -19,6 +19,8 @@ djoser = "*"
 pytest-django = "*"
 factory-boy = "*"
 pytest-factoryboy = "*"
+pytest-cov = "*"
+pytest-celery = "*"
 
 [dev-packages]
 

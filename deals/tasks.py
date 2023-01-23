@@ -10,6 +10,11 @@ from producer.models import Producer
 
 
 @shared_task
+def add(x, y):
+    return x + y
+
+
+@shared_task
 def sale_car_from_producer():
     # select one auto_show
     for auto_show in AutoShow.objects.all():
