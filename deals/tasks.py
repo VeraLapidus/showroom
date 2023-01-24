@@ -30,6 +30,7 @@ def sale_car_from_producer():
 
         # each wish_car from list_wish_car
         for elem_wish_car in list_wish_car:
+
             # make a dict from wish_car
             elem_wish_car_dict = json.loads(elem_wish_car)
 
@@ -70,3 +71,18 @@ def sale_car_from_producer():
                     Deal.objects.create(name=f'{car.name} from {car.producers.name} to {auto_show.name}',
                                         participants="Producer-AutoShow", producers=car.producers, auto_shows=auto_show,
                                         car_instances=car, price=car.price)
+
+
+@shared_task
+def find_best_car_for_sale():
+    # select one auto_show
+    for auto_show in AutoShow.objects.all():
+
+        # select auto_show's balance
+        auto_show_balance = auto_show.balance
+
+        # best car for sale
+        car = CarInstance.objects.filter(Q(producers_id__isnull=False) & Q(price__lte=auto_show_balance)).order_by(
+            'price').first()
+        if car is not None:
+            return car.price

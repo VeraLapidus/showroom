@@ -1,59 +1,10 @@
-import factory
 import pytest
-import factory.fuzzy
 
 from auto_show.models import AutoShow
-from car.models import CarInstance
-from car.tests import CarFactory
+from car.models import CarInstance, Car
 from producer.models import Producer
 from user.models import User
-from deals.tasks import add, sale_car_from_producer
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = User
-
-    username = factory.Faker("name")
-    password = factory.Faker("password", length=40, special_chars=False, upper_case=False)
-    usertype = factory.Faker("word", ext_word_list=["AutoShow", "Customer", "Producer"]),
-    # usertype = factory.fuzzy.FuzzyChoice (choices = ["AutoShow", "Customer", "Producer"]),
-    email = factory.Faker("email")
-
-
-class AutoShowFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = AutoShow
-
-    name = factory.Faker("name")
-    country = factory.Faker("word", ext_word_list=["NZ", "CA", "FR", "DE", "US"])
-    balance = factory.fuzzy.FuzzyDecimal(low=0, high=10000, precision=2)
-    owner = factory.SubFactory(UserFactory)
-    wish_car = '{"brand": "Audi", "model": "A3", "year": "None", "color": "None", "price": "120"}   ' \
-               '{"brand": "Audi", "model": "A5", "year": "None", "color": "None", "price": "130"}   ' \
-               '{"brand": "Audi", "model": "Q7", "year": "None", "color": "None", "price": "25"}'
-
-
-class ProducerFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Producer
-
-    name = factory.Faker("name")
-    country = factory.Faker("word", ext_word_list=["NZ", "CA", "FR", "DE", "US"])
-    balance = 240
-    # balance = factory.fuzzy.FuzzyDecimal(low=0, high=10000, precision=2)
-    owner = factory.SubFactory(UserFactory)
-
-
-class CarInstanceFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = CarInstance
-
-    name = factory.SubFactory(CarFactory)
-    condition = "At Producer"
-    # condition = factory.fuzzy.FuzzyChoice(choices=["At Producer", "Wish for AutoShow", "At Producer", "At AutoShow", "At Producer", "At Producer"])
-    price = factory.fuzzy.FuzzyDecimal(low=25, high=110, precision=2)
-    producers = factory.SubFactory(ProducerFactory)
+from deals.tasks import add, find_best_car_for_sale
 
 
 @pytest.fixture(scope='session')
@@ -70,55 +21,66 @@ def celery_worker_parameters():
 
 
 @pytest.fixture
-def users():
-    return UserFactory.create_batch(3)
+def create_user_auto_show() -> User:
+    return User.objects.create(
+        username="Audi AutoShow",
+        password="12345",
+        usertype="AutoShow",
+        email="trainee5@gmail.com")
 
 
 @pytest.fixture
-def auto_shows():
-    return AutoShowFactory.create_batch(5)
+def create_user_producer() -> User:
+    return User.objects.create(
+        username="Audi Producer",
+        password="12345",
+        usertype="Producer",
+        email="trainee6@gmail.com")
 
 
 @pytest.fixture
-def producers():
-    return ProducerFactory.create_batch(3)
-
-
-@pytest.fixture
-def car_instances():
-    return CarInstanceFactory.create_batch(10)
-
-
-@pytest.fixture
-def create_producer(create_user) -> Producer:
-    return Producer.objects.create(
-        name="Ford",
+def create_auto_show_for_celery(create_user_auto_show) -> AutoShow:
+    return AutoShow.objects.create(
+        name="Audi Minsk",
         country="DE",
-        balance=200.00,
-        owner=User.objects.get(username="Ford Minsk"),
-        wish_car='{"brand": "Audi", "model": "A3", "year": "None", "color": "None", "price": "120"}   ' \
-                 '{"brand": "Audi", "model": "A5", "year": "None", "color": "None", "price": "130"}   ' \
-                 '{"brand": "Audi", "model": "Q7", "year": "None", "color": "None", "price": "25"}')
+        balance=250.00,
+        owner=User.objects.get(username="Audi AutoShow"),
+        wish_car='{"brand": "Audi", "model": "A5", "year": "None", "color": "None", "price": "120"}')
 
 
-@pytest.mark.django_db
-def test_create_users(users):
-    assert User.objects.count() == 3
+@pytest.fixture
+def create_producer_for_celery(create_user_producer) -> Producer:
+    return Producer.objects.create(
+        name="Audi Bayer",
+        country="DE",
+        balance=20.00,
+        owner=User.objects.get(username="Audi Producer"))
 
 
-@pytest.mark.django_db
-def test_create_auto_shows(auto_shows):
-    assert AutoShow.objects.count() == 5
+@pytest.fixture
+def create_car_for_celery() -> Car:
+    return Car.objects.create(
+        brand="Audi",
+        model="A5",
+        year=2000)
 
 
-@pytest.mark.django_db
-def test_create_producers(producers):
-    assert Producer.objects.count() == 3
+@pytest.fixture
+def create_car_instance_for_celery(create_car_for_celery, create_producer_for_celery) -> CarInstance:
+    return CarInstance.objects.create(
+        name=Car.objects.get(brand="Audi"),
+        condition="At Producer",
+        price=80.00,
+        producers=Producer.objects.get(name="Audi Bayer"))
 
 
-@pytest.mark.django_db
-def test_create_car_instances(car_instances):
-    assert CarInstance.objects.count() == 10
+@pytest.fixture
+def create_car_instance_for_celery2(create_car_for_celery, create_producer_for_celery) -> CarInstance:
+    return CarInstance.objects.create(
+        name=Car.objects.get(brand="Audi"),
+        condition="At Producer",
+        price=15.00,
+        producers=Producer.objects.get(name="Audi Bayer"))
 
 
 def test_celery_worker_initializes(celery_app, celery_worker):
@@ -127,3 +89,15 @@ def test_celery_worker_initializes(celery_app, celery_worker):
 
 def test_celery_tasks(celery_app, celery_worker):
     assert add.delay(8, 4).get(timeout=5) == 12
+
+
+@pytest.mark.celery_app
+@pytest.mark.celery_worker
+@pytest.mark.django_db
+def test_celery_find_best_car_for_sale(create_auto_show_for_celery, create_car_instance_for_celery,
+                                       create_car_instance_for_celery2):
+    assert AutoShow.objects.count() == 1
+    assert CarInstance.objects.count() == 2
+    assert AutoShow.objects.filter(balance=250.00).exists()
+    assert CarInstance.objects.order_by('price').first().price == 15.00
+    assert find_best_car_for_sale.delay().get(timeout=10) == '15.00'

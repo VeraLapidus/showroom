@@ -231,9 +231,12 @@ CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
 
 CELERY_BEAT_SCHEDULE = {
-    "first_task": {
-        "task": "deals.tasks.sale_car_from_producer",
-        "schedule": 30,
-        # "schedule": crontab(minute="*/1"),
+    # "first_task": {
+    #     "task": "deals.tasks.sale_car_from_producer",
+    #     "schedule": 30,
+    # },
+    "sale_part": {
+        "task": "deals.tasks.find_best_car_for_sale",
+        "schedule": 10,
     },
 }
