@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
+
 from auto_show.models import AutoShow
 from auto_show.serializers import AutoShowSerializer
 from user.models import User
@@ -59,3 +60,10 @@ def test_auto_show_response_data(create_auto_show, api_client):
 def test_auto_show_delete(create_auto_show):
     AutoShow.objects.filter(name="Ford").delete()
     assert AutoShow.objects.count() == 0
+
+
+@pytest.mark.django_db
+def test_auto_show_statistic(create_auto_show, api_client):
+    url = reverse('autoshow-stat', kwargs={'pk': create_auto_show.id})
+    response = api_client.get(url, pk=create_auto_show.id)
+    assert response.status_code == 200
