@@ -1,4 +1,6 @@
 import pytest
+from django.urls import reverse
+from rest_framework.test import APIClient
 
 from auto_show.models import AutoShow
 from car.models import CarInstance, Car
@@ -18,6 +20,11 @@ def celery_config():
 @pytest.fixture
 def celery_worker_parameters():
     return {'perform_ping_check': False, }
+
+
+@pytest.fixture
+def api_client():
+    return APIClient()
 
 
 @pytest.fixture
@@ -101,3 +108,12 @@ def test_celery_find_best_car_for_sale(create_auto_show_for_celery, create_car_i
     assert AutoShow.objects.filter(balance=250.00).exists()
     assert CarInstance.objects.order_by('price').first().price == 15.00
     assert find_best_car_for_sale.delay().get(timeout=10) == '15.00'
+
+
+@pytest.mark.django_db
+def test_authenticate_but_forbidden_request(api_client, create_user_auto_show):
+    user = User.objects.get(username="Audi AutoShow")
+    api_client.force_authenticate(user=user)
+    url = reverse('deal-list')
+    response = api_client.get(url)
+    assert response.status_code == 403

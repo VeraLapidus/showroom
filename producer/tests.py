@@ -80,14 +80,6 @@ def create_deal(create_producer, create_auto_show, create_car_instance) -> Deal:
         price=80.00)
 
 
-@pytest.mark.statistic
-@pytest.mark.django_db
-def test_producer_api(api_client):
-    url = reverse("producer-list")
-    response = api_client.get(url)
-    assert response.status_code == 200
-
-
 @pytest.mark.django_db
 def test_deal_create(create_deal):
     assert Deal.objects.count() == 1
@@ -95,7 +87,9 @@ def test_deal_create(create_deal):
 
 @pytest.mark.statistic
 @pytest.mark.django_db
-def test_producer_statistic(create_producer, create_deal, api_client):
+def test_producer_statistic(create_producer, create_deal, create_user_producer, api_client):
+    user = User.objects.get(username="Mercedes Producer")
+    api_client.force_authenticate(user=user)
     url = reverse('producer-stat', kwargs={'pk': create_producer.id})
     response = api_client.get(url, pk=create_producer.id)
     expected_data = {
@@ -109,3 +103,12 @@ def test_producer_statistic(create_producer, create_deal, api_client):
     }
     assert response.status_code == 200
     assert response.data == expected_data
+
+
+@pytest.mark.django_db
+def test_authentication_of_endpoints(api_client, create_user_producer):
+    user = User.objects.get(username="Mercedes Producer")
+    api_client.force_authenticate(user=user)
+    url = reverse("producer-list")
+    response = api_client.get(url)
+    assert response.status_code == 200
