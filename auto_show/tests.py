@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from auto_show.models import AutoShow
@@ -39,7 +40,7 @@ def test_auto_show_create(create_auto_show):
 def test_auto_show_api(api_client):
     url = reverse("autoshow-list")
     response = api_client.get(url)
-    assert response.status_code == 200
+    assert status.is_success(response.status_code)
 
 
 @pytest.mark.django_db
@@ -47,7 +48,7 @@ def test_auto_show_response_data(create_auto_show, api_client):
     url = reverse('autoshow-list')
     response = api_client.get(url)
     serializer_data = AutoShowSerializer([create_auto_show], many=True).data
-    assert response.status_code == 200
+    assert status.is_success(response.status_code)
     assert response.data == serializer_data
 
 
@@ -67,5 +68,5 @@ def test_auto_show_statistic(create_auto_show, api_client):
         "consumption, USD": None,
         "bought_cars": []
     }
-    assert response.status_code == 200
+    assert status.is_success(response.status_code)
     assert response.data == expected_data

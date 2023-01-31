@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from auto_show.models import AutoShow
@@ -116,4 +117,5 @@ def test_authenticate_but_forbidden_request(api_client, create_user_auto_show):
     api_client.force_authenticate(user=user)
     url = reverse('deal-list')
     response = api_client.get(url)
-    assert response.status_code == 403
+    status_code = status.HTTP_403_FORBIDDEN
+    assert response.status_code == status_code

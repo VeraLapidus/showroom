@@ -2,6 +2,7 @@ from decimal import Decimal
 
 import pytest
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from auto_show.models import AutoShow
@@ -101,7 +102,7 @@ def test_producer_statistic(create_producer, create_deal, create_user_producer, 
         },
         "amount_of_unique_clients": 1
     }
-    assert response.status_code == 200
+    assert status.is_success(response.status_code)
     assert response.data == expected_data
 
 
@@ -111,4 +112,4 @@ def test_authentication_of_endpoints(api_client, create_user_producer):
     api_client.force_authenticate(user=user)
     url = reverse("producer-list")
     response = api_client.get(url)
-    assert response.status_code == 200
+    assert status.is_success(response.status_code)
