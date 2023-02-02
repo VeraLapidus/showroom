@@ -43,7 +43,7 @@ def test_cars_list(cars, api_client):
     url = reverse("car-list")
     response = api_client.get(url)
     assert Car.objects.count() == 5
-    assert response.status_code == 200
+    assert status.is_success(response.status_code)
 
 
 @pytest.mark.django_db

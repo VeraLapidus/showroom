@@ -117,5 +117,5 @@ def test_authenticate_but_forbidden_request(api_client, create_user_auto_show):
     api_client.force_authenticate(user=user)
     url = reverse('deal-list')
     response = api_client.get(url)
-    status_code = status.HTTP_403_FORBIDDEN
-    assert response.status_code == status_code
+    expected_status_code = status.HTTP_403_FORBIDDEN
+    assert response.status_code == expected_status_code
