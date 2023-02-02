@@ -37,6 +37,7 @@ router.register(r'customer', CustomerViewSet)
 router.register(r'producer', ProducerViewSet)
 router.register(r'user', UserViewSet)
 
+print(router.urls)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -47,7 +48,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
-    #djoser
+    # djoser
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 
