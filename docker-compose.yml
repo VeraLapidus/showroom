@@ -2,10 +2,10 @@ version: '2.4'
 services:
   web:
     build: .
-    command: sh -c "gunicorn --bind 0.0.0.0:8000 my_showroom.wsgi"
+    command: sh ./entrypoint.sh
     volumes:
       - .:/project
-      - static_volume:/project/static
+      - static_volume:/project/staticfiles/
     ports:
       - 8000:8000
     env_file:
@@ -46,7 +46,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - static_volume:/project/static
+      - static_volume:/project/staticfiles/
     depends_on:
       - web
 
