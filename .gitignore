@@ -134,3 +134,6 @@ Footer
 
 # pyc files
 *.pyc
+
+# staticfiles
+staticfiles/

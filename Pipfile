@@ -21,6 +21,7 @@ factory-boy = "*"
 pytest-factoryboy = "*"
 pytest-cov = "*"
 pytest-celery = "*"
+gunicorn = "*"
 
 [dev-packages]
 
